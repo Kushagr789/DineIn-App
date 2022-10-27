@@ -86,7 +86,7 @@ class _MyAccountState extends State<MyAccount> {
                       SizedBox(width: MediaQuery.of(context).size.width/20,),
                       Icon(FontAwesomeIcons.user),
                       SizedBox(width: MediaQuery.of(context).size.width/20,),
-                      Text('Kushagra',
+                      Text('Kushagr',
                         style: TextStyle(
                           fontSize: 25,
                           color: Colors.red,
