@@ -41,6 +41,7 @@ dependencies:
   scroll_snap_list: ^0.9.1
   font_awesome_flutter: ^10.2.1
   firebase_core: ^2.1.0
+  
 
 dev_dependencies:
   flutter_test:

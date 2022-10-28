@@ -4,7 +4,9 @@ import 'package:myapp/EventScreen.dart';
 import 'package:myapp/HomeScreen.dart';
 import 'package:myapp/OrderScreen.dart';
 import 'package:myapp/WalletScreen.dart';
+import 'package:myapp/const.dart';
 import 'package:myapp/deliver.dart';
+import 'package:myapp/restaurant.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -17,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   List screens=[
     HomeScreen(),
     Deliver(),
-    WalletScreen(),
+    Restaurant(),
     EventScreen(),
     ];
     int currenIndex=0;
