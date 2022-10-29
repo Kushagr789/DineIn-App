@@ -36,7 +36,7 @@ class _RestaurantState extends State<Restaurant> {
         },
         body: SingleChildScrollView(
           child:Container(
-            height: size.height*1.3,
+            height: size.height*1.5,
           child: Column(
             children: [
               Padding(
@@ -122,9 +122,7 @@ class _RestaurantState extends State<Restaurant> {
                 ),
                 
               ),
-              SizedBox(
-                height: size.height*0.02,
-              ),
+              
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 15.0),
                 child: Container(
@@ -180,12 +178,11 @@ class _RestaurantState extends State<Restaurant> {
                 ),
                 
               ),
-              SizedBox(
-                height: size.height*0.02,
-              ),
+              
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 15.0),
-                child: Container(
+                child: GestureDetector(
+                  child: Container(
                   height: size.height*0.08,
                   width: size.width,
                   decoration: BoxDecoration(
@@ -229,6 +226,448 @@ class _RestaurantState extends State<Restaurant> {
                     ),
                   ),
                 ),
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (context) {
+                      return  Padding(padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 15.0),
+                        child: Container(
+                          height: size.height*0.5,
+                          width: size.width,
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'SELECT DATE & TIME',
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    child: Icon(FontAwesomeIcons.x,size: 20,),
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                  )
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 10.0),
+                                child: Container(
+                                  height: size.height*0.05,
+                                  width: size.width,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(18),topRight: Radius.circular(18)),                        
+                                    color: Colors.white,
+                                    boxShadow: [BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(0.0, 0.0),
+                                      blurRadius: 2.0,
+                                      spreadRadius: 0.0,
+                                      blurStyle: BlurStyle.normal
+                                    ),]
+                                  ),
+                                  child: Padding(padding: EdgeInsets.symmetric(horizontal: 5.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('Date',
+                                          style: TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text('Oct 2022',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.black,
+                                          ),
+                                        )
+
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                height: size.height*0.08,
+                                width: size.width,
+                                child: ListView.builder(
+                                  itemCount: 10,
+                                  
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      height: size.height*0.08,
+                                      width: size.width/5,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10)
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text('Day',
+                                            style: TextStyle(
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          
+                                          ),
+                                          Text('29',
+                                          style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold
+                                          ),)
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 10.0),
+                                  child: Container(
+                                    height: size.height*0.22,
+                                    width: size.width,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),                        
+                                      color: Colors.white,
+                                      boxShadow: [BoxShadow(
+                                        color: Colors.black,
+                                        offset: Offset(0.0, 0.0),
+                                        blurRadius: 2.0,
+                                        spreadRadius: 0.0,
+                                        blurStyle: BlurStyle.normal
+                                      ),]
+                                    ),
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 5.0),
+                                    child: Column(
+                                      children: [
+                                        Text('Time',
+                                          style: TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              
+                                              children: [
+                                                Text('Lunch',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.red),),
+                                                GestureDetector(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      color: Color.fromARGB(255, 249, 137, 137)
+                                                    ),
+                                                    height: 25,
+                                                    width: 100,
+                                                    child: Center(
+                                                      child: Text(
+                                                        'time',
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: size.height*0.003,),
+                                                GestureDetector(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      color: Color.fromARGB(255, 249, 137, 137)
+                                                    ),
+                                                    height: 25,
+                                                    width: 100,
+                                                    child: Center(
+                                                      child: Text(
+                                                        'time',
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: size.height*0.003,),
+                                                GestureDetector(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      color: Color.fromARGB(255, 249, 137, 137)
+                                                    ),
+                                                    height: 25,
+                                                    width: 100,
+                                                    child: Center(
+                                                      child: Text(
+                                                        'time',
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: size.height*0.003,),
+                                                GestureDetector(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      color: Color.fromARGB(255, 249, 137, 137)
+                                                    ),
+                                                    height: 25,
+                                                    width: 100,
+                                                    child: Center(
+                                                      child: Text(
+                                                        'time',
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: size.height*0.003,),
+                                                GestureDetector(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      color: Color.fromARGB(255, 249, 137, 137)
+                                                    ),
+                                                    height: 25,
+                                                    width: 100,
+                                                    child: Center(
+                                                      child: Text(
+                                                        'time',
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                
+                                              ],
+                                            ),
+                                            Column(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Text('Dinner',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.red),),
+                                                GestureDetector(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      color: Color.fromARGB(255, 249, 137, 137)
+                                                    ),
+                                                    height: 25,
+                                                    width: 100,
+                                                    child: Center(
+                                                      child: Text(
+                                                        'time',
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: size.height*0.003,),
+                                                GestureDetector(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      color: Color.fromARGB(255, 249, 137, 137)
+                                                    ),
+                                                    height: 25,
+                                                    width: 100,
+                                                    child: Center(
+                                                      child: Text(
+                                                        'time',
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: size.height*0.003,),
+                                                GestureDetector(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      color: Color.fromARGB(255, 249, 137, 137)
+                                                    ),
+                                                    height: 25,
+                                                    width: 100,
+                                                    child: Center(
+                                                      child: Text(
+                                                        'time',
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: size.height*0.003,),
+                                                GestureDetector(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      color: Color.fromARGB(255, 249, 137, 137)
+                                                    ),
+                                                    height: 25,
+                                                    width: 100,
+                                                    child: Center(
+                                                      child: Text(
+                                                        'time',
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: size.height*0.003,),
+                                                GestureDetector(
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      color: Color.fromARGB(255, 249, 137, 137)
+                                                    ),
+                                                    height: 25,
+                                                    width: 100,
+                                                    child: Center(
+                                                      child: Text(
+                                                        'time',
+                                                        style: TextStyle(
+                                                          fontSize: 18,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                
+                                              ],
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    )
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20.0),
+                                child: GestureDetector(
+                                  child: Container(
+                                  height: size.height*0.06,
+                                  width: size.width,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(18),                        
+                                    color: Colors.white,
+                                    boxShadow: [BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(0.0, 0.0),
+                                      blurRadius: 2.0,
+                                      spreadRadius: 0.0,
+                                      blurStyle: BlurStyle.normal
+                                    ),]
+                                  ),
+                                  child: Padding(padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text('Continue',
+                                          style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  
+                                },
+                                ),
+                              ),    
+                            ],
+                          ),
+                        ),
+                      );
+                      
+                    },
+                  );
+                },
+                ),
+                
+                
+              ),
+              
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 15.0),
+                child: GestureDetector(
+                  child: Container(
+                  height: size.height*0.08,
+                  width: size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(18),                        
+                    color: Colors.white,
+                    boxShadow: [BoxShadow(
+                      color: Colors.black,
+                      offset: Offset(0.0, 0.0),
+                      blurRadius: 2.0,
+                      spreadRadius: 0.0,
+                      blurStyle: BlurStyle.normal
+                    ),]
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Row(
+                      
+                      children: [
+                        SizedBox(width: size.width*0.02,),
+                        Icon(
+                          FontAwesomeIcons.list,size: 35,
+                        ),
+                        SizedBox(width: size.width*0.05,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Menu',
+                              
+                              style: TextStyle(
+                                fontSize: 20,
+                                
+                              ),
+                            ),
+                            
+                          ],
+                        ),
+                        
+                      ],
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  
+                },
+                )
                 
               ),
               Padding(
@@ -633,6 +1072,59 @@ class _RestaurantState extends State<Restaurant> {
                   ),
                   ),
                 ),
+                
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 15.0),
+                child: GestureDetector(
+                  child: Container(
+                  height: size.height*0.08,
+                  width: size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(18),                        
+                    color: Colors.white,
+                    boxShadow: [BoxShadow(
+                      color: Colors.black,
+                      offset: Offset(0.0, 0.0),
+                      blurRadius: 2.0,
+                      spreadRadius: 0.0,
+                      blurStyle: BlurStyle.normal
+                    ),]
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Row(
+                      
+                      children: [
+                        SizedBox(width: size.width*0.02,),
+                        Icon(
+                          FontAwesomeIcons.list,size: 35,
+                        ),
+                        SizedBox(width: size.width*0.05,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Reviews',
+                              
+                              style: TextStyle(
+                                fontSize: 20,
+                                
+                              ),
+                            ),
+                            
+                          ],
+                        ),
+                        
+                      ],
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  
+                },
+                )
                 
               ),
 
