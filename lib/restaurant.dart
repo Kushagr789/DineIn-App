@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:myapp/Menu.dart';
 
 class Restaurant extends StatefulWidget {
   const Restaurant({super.key});
@@ -665,7 +667,7 @@ class _RestaurantState extends State<Restaurant> {
                   ),
                 ),
                 onTap: () {
-                  
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Menu()));
                 },
                 )
                 

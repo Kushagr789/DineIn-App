@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/MyAccount.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/const.dart';
+import 'package:myapp/order.dart';
 class Deliver extends StatefulWidget {
   const Deliver({super.key});
 
@@ -262,7 +263,7 @@ class _DeliverState extends State<Deliver> {
                       padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 18.0),
                       child: GestureDetector(
                       onTap: () {
-                        
+                        Navigator.push(context, MaterialPageRoute(builder: ((context) => Order())));
                       },
                       child: Material(
                         elevation: 3,
