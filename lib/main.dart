@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Color.fromARGB(255, 225, 34, 97)
       ),
       debugShowCheckedModeBanner: false,
-      home: HomePage(),       
+      home: LoginPage(),       
     );
   }
 }

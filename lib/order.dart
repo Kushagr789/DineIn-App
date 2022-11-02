@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:myapp/Billing.dart';
 class Order extends StatefulWidget {
   const Order({super.key});
 
@@ -10,16 +11,28 @@ class Order extends StatefulWidget {
 }
 
 class _OrderState extends State<Order> {
-  
+    int select=0;int qt=0;int tp=0;  bool visible=false;
+    void change(int num,int t,)
+    {
+      setState(() {
+        qt=qt+num;
+      tp=tp+t;
+      visible=true;
+      });
+    }
   @override
   Widget build(BuildContext context) {
+    
+    int num=1;int price=250;int selectPrice=price;
+
     final size=MediaQuery.of(context).size;
-    int select=0;
     return Scaffold(
       appBar: AppBar(
         
       ),
-      body: SingleChildScrollView(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
         child: Column(
           
           children: [
@@ -246,7 +259,9 @@ class _OrderState extends State<Order> {
                           showModalBottomSheet(context: context, 
                           isScrollControlled: true,
                             builder: ((context) {
-                              return Container(
+                              return StatefulBuilder(
+                                builder: ((context, setState) {
+                                  return Container(
                                   height: size.height*0.7,
                                   width: size.width,
                                   decoration: BoxDecoration(
@@ -333,7 +348,7 @@ class _OrderState extends State<Order> {
                                                           ),
                                                         ),
                                                         SizedBox(width: 200,),
-                                                        Text('price',
+                                                        Text((price*(index+1)-(20*index)).toString(),
                                                           style: TextStyle(
                                                             fontSize: 15,
                                                             color: Colors.black,
@@ -348,7 +363,7 @@ class _OrderState extends State<Order> {
                                                   onTap: () {
                                                     select=index;
                                                     setState(() {
-                                                      
+                                                      selectPrice=price*(index+1)-(20*index);
                                                     });
                                                   },
                                                   behavior: HitTestBehavior.opaque,
@@ -364,7 +379,7 @@ class _OrderState extends State<Order> {
                                             children: [
                                             Container(
                                               height: size.height*0.05,
-                                              width: size.width*0.28,
+                                              width: size.width*0.29,
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(10),
                                                 border: Border.all(color: Colors.red),
@@ -373,18 +388,26 @@ class _OrderState extends State<Order> {
                                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                 children: [
                                                   IconButton(
-                                                    icon: Icon(FontAwesomeIcons.plus,size: 15,color: Colors.red),
-                                                    onPressed: () {
-                                                      
-                                                    },
+                                                     icon: Icon(FontAwesomeIcons.minus,size: 15,color: Colors.red,),
+                                                     onPressed: () {
+                                                       if(num>1)
+                                                      {
+                                                        setState(() {
+                                                          num=num-1;
+                                                          
+                                                        },);
+                                                      }
+                                                     },
                                                   ),
-                                                  Text('1',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.black),),
+                                                  Text(num.toString(),style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Colors.black),),
                                                   IconButton(
-                                                    onPressed: () {
-                                                      
-                                                    }, 
-                                                    icon: Icon(FontAwesomeIcons.minus,size: 15,color: Colors.red)
-                                                    )
+                                                    icon: Icon(FontAwesomeIcons.plus,size: 15,color: Colors.red,),
+                                                    onPressed:(){
+                                                      setState(() {
+                                                        num=num+1;
+                                                      });
+                                                    }
+                                                  )
                                                 ],
                                               ),
                                             ),
@@ -397,7 +420,7 @@ class _OrderState extends State<Order> {
                                                   color: Colors.red,
                                                 ),
                                                 child: Center(
-                                                  child: Text('Add item price',
+                                                  child: Text('Add item '+selectPrice.toString(),
                                                     style: TextStyle(
                                                       fontSize: 18,
                                                       fontWeight: FontWeight.bold,
@@ -406,6 +429,14 @@ class _OrderState extends State<Order> {
                                                   ),
                                                 ),
                                               ),
+                                              onTap: () {
+                                                change(num,(num*selectPrice));
+                                                
+                                                
+                                                
+                                                Navigator.pop(context);
+                                                
+                                              },
                                             )
                                           ]),
                                         ),
@@ -418,6 +449,8 @@ class _OrderState extends State<Order> {
                                     ],
                                   ),
                                 );
+                                })
+                              );
                               
                             })
                           );
@@ -431,7 +464,63 @@ class _OrderState extends State<Order> {
 
           ],
         ),
+        
+         
       ),
+        visible
+        ?Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(padding: EdgeInsets.all(10),
+          child: GestureDetector(
+            child: Container(
+            height: size.height*0.07,
+            width: size.width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.red,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('  '+qt.toString()+((qt>1)?' ITEMS':' ITEM'),
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text('  '+tp.toString(),
+                    style: TextStyle(
+                      fontSize: 18,
+
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white
+                    ),),
+                  ],
+                ),
+                Text('Next  ',
+                  style: TextStyle(
+                    fontSize: 22,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              ],
+            ),
+          ),
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: ((context) => Billing())));
+          },
+          ),
+        ),
+        )
+        :SizedBox(height: 1),
+        ],
+      )
+      
     );
   }
 }

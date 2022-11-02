@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   List screens=[
     HomeScreen(),
     Deliver(),
-    Restaurant(),
+    WalletScreen(),
     EventScreen(),
     ];
     int currenIndex=0;

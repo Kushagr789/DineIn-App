@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/Menu.dart';
+import 'package:myapp/Reviews.dart';
 
 class Restaurant extends StatefulWidget {
   const Restaurant({super.key});
@@ -125,61 +126,6 @@ class _RestaurantState extends State<Restaurant> {
                 
               ),
               
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 15.0),
-                child: Container(
-                  height: size.height*0.08,
-                  width: size.width,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),                        
-                    color: Colors.white,
-                    boxShadow: [BoxShadow(
-                      color: Colors.black,
-                      offset: Offset(0.0, 0.0),
-                      blurRadius: 2.0,
-                      spreadRadius: 0.0,
-                      blurStyle: BlurStyle.normal
-                    ),]
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Row(
-                      
-                      children: [
-                        SizedBox(width: size.width*0.02,),
-                        Icon(
-                          FontAwesomeIcons.noteSticky,size: 35,
-                        ),
-                        SizedBox(width: size.width*0.05,),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Pay Bill',
-                              
-                              style: TextStyle(
-                                fontSize: 20,
-                                
-                              ),
-                            ),
-                            Text(
-                              'Save Extra 5% using PromoCaSh',
-                              
-                              style: TextStyle(
-                                fontSize: 15,
-                                
-                              ),
-                            )
-                          ],
-                        ),
-                        
-                      ],
-                    ),
-                  ),
-                ),
-                
-              ),
               
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 15.0),
@@ -235,7 +181,7 @@ class _RestaurantState extends State<Restaurant> {
                     builder: (context) {
                       return  Padding(padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 15.0),
                         child: Container(
-                          height: size.height*0.5,
+                          height: size.height*0.55,
                           width: size.width,
                           child: Column(
                             children: [
@@ -249,9 +195,10 @@ class _RestaurantState extends State<Restaurant> {
                                       color: Colors.black
                                     ),
                                   ),
-                                  GestureDetector(
-                                    child: Icon(FontAwesomeIcons.x,size: 20,),
-                                    onTap: () {
+                                  IconButton(
+                                    icon: Icon(FontAwesomeIcons.x,size: 20,),
+                                    iconSize: 15,
+                                    onPressed: () {
                                       Navigator.pop(context);
                                     },
                                   )
@@ -1124,7 +1071,7 @@ class _RestaurantState extends State<Restaurant> {
                   ),
                 ),
                 onTap: () {
-                  
+                  Navigator.push(context, MaterialPageRoute(builder: ((context) => Reviews())));
                 },
                 )
                 
