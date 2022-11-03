@@ -331,10 +331,12 @@ class _OrderState extends State<Order> {
                                               ListView.builder(
                                                 itemCount: 3,shrinkWrap: true,
                                                 itemBuilder: ((context, index) {
+                                                  
                                                   return GestureDetector(
                                                     child: Container(
                                                     height: size.height*0.06,
                                                     width: size.width,
+                                                    
                                                     color: select==index? Colors.grey:null,
                                                     child: Row(
                                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

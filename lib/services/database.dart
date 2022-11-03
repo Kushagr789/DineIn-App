@@ -1,25 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DataBaseServices{
-  final CollectionReference userlist=FirebaseFirestore.instance.collection('users');
+  
 
-  Future createUserData(String firstname,String lastname,String phone,String uid)async{
-    return await userlist.doc(uid).set({'firstname': firstname,'lastname': lastname, 'phone': phone});
+  Future createUserData(String username,String firstname,String lastname,String phone,String email)async{
+    final  docUser=FirebaseFirestore.instance.collection('users').doc(username);
+    
+    return await docUser.set({'username':username,'firstname': firstname,'lastname': lastname, 'phone': phone,'email':email});
   }
-  Future getUserList() async{
-  List itemsList=[];
-  try{
-    await userlist.get().then((querySnapshot){
-      querySnapshot.docs.forEach((element) {
-        itemsList.add(element.data);
-      });
-    });
-    return itemsList;
-    }catch(e){
-      print(e.toString());
-      return null;
-    }
-  }
+  
 }
 
 

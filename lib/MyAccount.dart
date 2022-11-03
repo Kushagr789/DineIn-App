@@ -1,3 +1,4 @@
+
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,29 +23,7 @@ class _MyAccountState extends State<MyAccount> {
   String userId="";
 
   @override
-  void initState(){
-    super.initState();
-    fetchUserInfo();
-    fetchDatabaseList();
-  }
-
-  fetchUserInfo() async{
-    User? getuser=await FirebaseAuth.instance.currentUser;
-    userId=getuser!.uid;
-  }
-
-  fetchDatabaseList() async{
-    dynamic resultant =await DataBaseServices().getUserList();
-
-    if(resultant==null){
-      print('Unable to retrieve');
-    }else{
-      setState(() {
-        userProfilelist=resultant;
-        
-      });
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +45,18 @@ class _MyAccountState extends State<MyAccount> {
         backgroundColor: Colors.white,
         
       ),
-      body: SingleChildScrollView(
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('users').snapshots(),
+        builder: (context, snapshot) {
+          if(!snapshot.hasData)
+          {
+            return Center(
+          child: CircularProgressIndicator(),
+        );
+          }
+          return ListView(
+            children: snapshot.data!.docs.map((document) {
+              return SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height*1.2,
           width: MediaQuery.of(context).size.width,
@@ -86,7 +76,7 @@ class _MyAccountState extends State<MyAccount> {
                       SizedBox(width: MediaQuery.of(context).size.width/20,),
                       Icon(FontAwesomeIcons.user),
                       SizedBox(width: MediaQuery.of(context).size.width/20,),
-                      Text('Kushagr',
+                      Text(document['firstname'],
                         style: TextStyle(
                           fontSize: 25,
                           color: Colors.red,
@@ -531,7 +521,13 @@ class _MyAccountState extends State<MyAccount> {
             ],
           ),
         ),
-      ),
+      );
+            }).toList(),
+            
+          );
+        },
+      )
     ) ;
   }
+  
 }

@@ -18,12 +18,13 @@ class _LoginPageState extends State<LoginPage> {
   bool showSpinner=false;
   @override
   Widget build(BuildContext context) {
+    final size=MediaQuery.of(context).size;
     future:Firebase.initializeApp();
     return Scaffold(
       body:SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
+          height: size.height,
+          width: size.width,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
@@ -35,10 +36,11 @@ class _LoginPageState extends State<LoginPage> {
               ]
               )
           ),
-          child: Column(
+          child: Center(
+            child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 60,),
+              SizedBox(height: size.height*0.15,),
               SizedBox(height: 35,),
               Text('Dineout',
                 style: TextStyle(
@@ -47,10 +49,10 @@ class _LoginPageState extends State<LoginPage> {
                   fontSize: 65,
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(height: size.height*0.02,),
               Container(
-                height: 550,
-                width: 325,
+                height: size.height*0.5,
+                width: size.width*0.82,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   color: Colors.white,
@@ -86,9 +88,11 @@ class _LoginPageState extends State<LoginPage> {
                         onChanged: (value) {
                           email=value;
                         },
+                        keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
-                          labelText: 'Username',
-                          suffixIcon: Icon(FontAwesomeIcons.user,size: 17,),
+                          labelText: 'Email',
+                          
+                          suffixIcon: Icon(FontAwesomeIcons.envelope,size: 17,),
                         ),
                       ),
                     ),
@@ -182,28 +186,12 @@ class _LoginPageState extends State<LoginPage> {
                                 );
                               },
                     ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Text('Or Login using',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 20,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Icon(FontAwesomeIcons.facebookF,size: 25,color: Color.fromARGB(255, 239, 75, 4),),
-                        Icon(FontAwesomeIcons.envelope,size: 25,color: Color.fromARGB(255, 239, 75, 4),),
-                        Icon(FontAwesomeIcons.phone,size: 25,color: Color.fromARGB(255, 239, 75, 4),),
-                      ],
-                    ),
-                    SizedBox(height: 10,),
+                    
                   ],
                 ),
               )
             ],
+          ),
           ),
         ),
       )

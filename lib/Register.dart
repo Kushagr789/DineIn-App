@@ -202,7 +202,7 @@ class _RegisterState extends State<Register> {
                           showSpinner=true;
                         });
                         try {
-                          final newUser=await _auth.createNewUser(firstname, lastname, phone, email, password);
+                          final newUser=await _auth.createNewUser(username,firstname, lastname, phone, email, password);
                           if(newUser!=null){
                             
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginPage()));
@@ -217,20 +217,7 @@ class _RegisterState extends State<Register> {
                       
                     ),
                     SizedBox(height: 10,),
-                    Text('Or SignUP using',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 20,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Icon(FontAwesomeIcons.facebookF,size: 25,color: Color.fromARGB(255, 239, 75, 4),),
-                        Icon(FontAwesomeIcons.envelope,size: 25,color: Color.fromARGB(255, 239, 75, 4),),
-                        
-                      ],
-                    ),
+                    
                   ],
                 ),
               )
