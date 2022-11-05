@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/EventScreen.dart';
 import 'package:myapp/HomeScreen.dart';
+import 'package:myapp/MyAccount.dart';
 import 'package:myapp/OrderScreen.dart';
 import 'package:myapp/WalletScreen.dart';
 import 'package:myapp/const.dart';
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     HomeScreen(),
     Deliver(),
     WalletScreen(),
-    EventScreen(),
+    MyAccount(),
     ];
     int currenIndex=0;
     
@@ -80,10 +81,10 @@ class _HomePageState extends State<HomePage> {
               color: Colors.black,
             ),
             activeIcon: Icon(
-              FontAwesomeIcons.star,
+              FontAwesomeIcons.user,
               color: Colors.red,
             ),
-            label: "Events",
+            label: "Profile",
           ),
         ],
       ),

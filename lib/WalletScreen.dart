@@ -9,6 +9,10 @@ class WalletScreen extends StatefulWidget {
 class _WalletScreenState extends State<WalletScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Center(
+        child: Text("You don't any have wallet",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.black),),
+      )
+    );
   }
 }
