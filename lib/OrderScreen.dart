@@ -1,6 +1,7 @@
 
 
 import 'package:myapp/MyAccount.dart';
+import 'package:myapp/order.dart';
 
 import 'const.dart';
 import 'package:flutter/material.dart';
@@ -190,7 +191,8 @@ class OrderScreen extends StatelessWidget {
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 4, mainAxisSpacing: 20),
           itemBuilder: (context, index) {
-            return Container(
+            return GestureDetector(
+              child: Container(
               height: size.height / 3,
               width: size.width / 5,
               child: Column(
@@ -212,6 +214,10 @@ class OrderScreen extends StatelessWidget {
                   )
                 ],
               ),
+            ),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: ((context) => Order())));
+            },
             );
           }),
     );
