@@ -3,6 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/Billing.dart';
+import 'package:myapp/const.dart';
 class Order extends StatefulWidget {
   const Order({super.key});
 
@@ -186,7 +187,7 @@ class _OrderState extends State<Order> {
                                 children: [
                                   SizedBox(height: size.height*0.02,),
                                   Icon(FontAwesomeIcons.solidCircleDot,color: Colors.green,size: 20,),
-                                  Text('Dish',
+                                  Text(foodItemList[index].name,
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -205,7 +206,7 @@ class _OrderState extends State<Order> {
                                       Text('33 reviews'),
                                     ],
                                   ),
-                                  Text('price',
+                                  Text(foodItemList[index].price.toString(),
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
@@ -225,7 +226,7 @@ class _OrderState extends State<Order> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(18),
                                         image: DecorationImage(
-                                          image: NetworkImage("https://i.ytimg.com/vi/JEeO_hagtVM/maxresdefault.jpg"),
+                                          image: NetworkImage(foodItemList[index].imageUrl),
                                             fit: BoxFit.cover,
                                         ),
                                       ),
@@ -279,7 +280,7 @@ class _OrderState extends State<Order> {
                                           height: size.height*0.25,
                                           width: size.width-20,
                                           decoration: BoxDecoration(
-                                            image: DecorationImage(image: NetworkImage('https://2rdnmg1qbg403gumla1v9i2h-wpengine.netdna-ssl.com/wp-content/uploads/sites/3/2016/05/worstSnacks-527905022-770x533-1-745x490.jpg'),fit: BoxFit.cover),
+                                            image: DecorationImage(image: NetworkImage(foodItemList[index].imageUrl),fit: BoxFit.cover),
                                             borderRadius: BorderRadius.circular(10),
                                           ),
                                         ),
@@ -291,7 +292,7 @@ class _OrderState extends State<Order> {
                                           width: size.width-20,
                                           child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Text('Dish Name',
+                                              Text(foodItemList[index].name,
                                                 style: TextStyle(
                                                   fontSize: 25,
                                                   fontWeight: FontWeight.bold,
@@ -311,7 +312,7 @@ class _OrderState extends State<Order> {
                                               Container(
                                                 height: size.height*0.05,
                                                 width: size.width-20,
-                                                child: Text('ifdjknvskjdfvncjksvdnc ikjsdznvikjsdfvc iukjsdfnvciukjsdfnvci ukjsndfvickjsdzfvkbsdfkj',
+                                                child: Text('Bestsellers of our restaurant',
                                                   style: TextStyle(
                                                     fontSize: 15,
                                                     color: Color.fromARGB(255, 99, 98, 98),
@@ -330,19 +331,19 @@ class _OrderState extends State<Order> {
                                               Text('Select 1 out of 3 options'),
                                               ListView.builder(
                                                 itemCount: 3,shrinkWrap: true,
-                                                itemBuilder: ((context, index) {
+                                                itemBuilder: ((context, index1) {
                                                   
                                                   return GestureDetector(
                                                     child: Container(
                                                     height: size.height*0.06,
                                                     width: size.width,
                                                     
-                                                    color: select==index? Colors.grey:null,
+                                                    color: select==index1? Colors.grey:null,
                                                     child: Row(
                                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                       children: [
                                                         
-                                                        Text('option',
+                                                        Text(options[index1].option,
                                                           style: TextStyle(
                                                             fontSize: 15,
                                                             color: Colors.black,
@@ -350,7 +351,7 @@ class _OrderState extends State<Order> {
                                                           ),
                                                         ),
                                                         SizedBox(width: 200,),
-                                                        Text((price*(index+1)-(20*index)).toString(),
+                                                        Text((foodItemList[index].price*(index1+1)-(20*index1)).toString(),
                                                           style: TextStyle(
                                                             fontSize: 15,
                                                             color: Colors.black,
@@ -363,9 +364,9 @@ class _OrderState extends State<Order> {
                                                     
                                                   ),
                                                   onTap: () {
-                                                    select=index;
+                                                    select=index1;
                                                     setState(() {
-                                                      selectPrice=price*(index+1)-(20*index);
+                                                      selectPrice=foodItemList[index].price*(index1+1)-(20*index1);
                                                     });
                                                   },
                                                   behavior: HitTestBehavior.opaque,
@@ -526,3 +527,13 @@ class _OrderState extends State<Order> {
     );
   }
 }
+class Options{
+  String option;
+  Options({required this.option});
+}
+List<Options>options=[
+  Options(option: 'Quater'),
+  Options(option: 'half'),
+  Options(option: 'Full'),
+];
+List l=[];

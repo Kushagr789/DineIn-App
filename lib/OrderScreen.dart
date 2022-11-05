@@ -281,7 +281,7 @@ class OrderScreen extends StatelessWidget {
       width: size.width,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: options.length,
+          itemCount: offer.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.all(8.0),
@@ -290,12 +290,13 @@ class OrderScreen extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(image: NetworkImage(offer[index].link),fit: BoxFit.cover),
                     border: Border.all(
                       width: 1,
                       color: Colors.grey,
                     )),
                 padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                child: Text(options[index]),
+                
               ),
             );
           }),
@@ -332,3 +333,16 @@ class OrderScreen extends StatelessWidget {
   
 
 }
+class Offer{
+  String link;
+  Offer(
+    {required this.link}
+  );
+}
+List<Offer>offer=[
+  Offer(link: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSevSXE4pT0NcgP2CwyHdP6mfIaafUjfRl_uQ&usqp=CAU'),
+  Offer(link: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_3l_4lRlCOE__Ld2MR66He1f2qfRbf01O4A&usqp=CAU'),
+  Offer(link: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxCeziiVyy3V8AQA5jcsFDxSDRu7lTsYumyA&usqp=CAU'),
+  Offer(link: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSevSXE4pT0NcgP2CwyHdP6mfIaafUjfRl_uQ&usqp=CAU'),
+  
+];

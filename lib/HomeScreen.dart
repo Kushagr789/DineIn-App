@@ -4,6 +4,7 @@ import 'package:myapp/MyAccount.dart';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:myapp/const.dart';
 import 'package:myapp/restaurant.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  
   @override
   Widget build(BuildContext context) {
     final size=MediaQuery.of(context).size;
@@ -78,10 +80,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                height: size.height*0.15,
+                height: size.height*0.16,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 5,physics: PageScrollPhysics(),
+                  itemCount: 4,physics: PageScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       child: Container(
@@ -91,7 +93,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: EdgeInsets.all(10),// add padding
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                          color: Colors.white,
+                          image: DecorationImage(
+                        image: NetworkImage(
+                          offersList[index].offerUrl,
+                        ),fit: BoxFit.cover,
+                      ),
                           border: Border.fromBorderSide(
                             BorderSide(
                               color: Color(0xFF8D4AE9),
@@ -109,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 20,),
               Container(
-                child: Row(
+                child: Row(mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     SizedBox(width: size.width/35,),
                     Text(
@@ -120,20 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: size.width*0.2,),
-                    GestureDetector(
-                      child: Text(
-                        'VIEW ALL',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onTap: () {
-                        
-                      },
-                    ),
+                    
                   ],
                 ),
               ),
@@ -141,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: size.height/25,
               ),
               SizedBox(
-                height: size.height*0.3,
+                height: size.height*0.31,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 10,
@@ -155,13 +148,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                           color: Colors.white,
+                        
                           border: Border.fromBorderSide(
                             BorderSide(
                               color: Color(0xFF8D4AE9),
                               width: 1.0,
                             ),
                           ),
+                          image: DecorationImage(
+                                  image: AssetImage(dineRestaurant[index].url),fit: BoxFit.cover
+                                )
                         ),
+                        
                       ),
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>Restaurant()));
@@ -201,13 +199,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                height: size.height/25,
+                height: size.height/26,
               ),
               SizedBox(
                 height: size.height*0.3,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 10,
+                  itemCount: 8,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       child: Container(
@@ -224,6 +222,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: 1.0,
                             ),
                           ),
+                          image: DecorationImage(
+                                  image: AssetImage(trendRestaurant[index].link),fit: BoxFit.cover
+                                )
                         ),
                       ),
                       onTap: () {
@@ -267,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: size.height/25,
               ),
               SizedBox(
-                height: size.height*0.25,
+                height: size.height*0.26,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 7,
@@ -287,6 +288,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: 1.0,
                             ),
                           ),
+                          image: DecorationImage(
+                                  image: AssetImage(fRestaurant[index].link),fit: BoxFit.cover
+                                )
                         ),
                       ),
                       onTap: () {
@@ -305,3 +309,52 @@ class _HomeScreenState extends State<HomeScreen> {
   
   }
 }
+class DineRestaurant{
+  String url;
+  DineRestaurant(
+    {required this.url}
+  );
+}
+List<DineRestaurant>dineRestaurant=[
+  DineRestaurant(url: 'images/SaqiBar.jpg'),
+  DineRestaurant(url: 'images/GoldResto.jpg'),
+  DineRestaurant(url: 'images/Local.jpg'),
+  DineRestaurant(url: 'images/MinistryOfBar.jpg'),
+  DineRestaurant(url: 'images/MySquareBar.jpg'),
+  DineRestaurant(url: 'images/StationBar.jpg'),
+  DineRestaurant(url: 'images/Tamasha.jpg'),
+  DineRestaurant(url: 'images/TheJunkyardCafe.jpg'),
+  DineRestaurant(url: 'images/UrbanGolden.jpg'),
+  DineRestaurant(url: 'images/Tamasha.jpg'),
+  ];
+  class TrendRestaurant{
+  String link;
+  TrendRestaurant(
+    {required this.link}
+  );
+}
+List<TrendRestaurant>trendRestaurant=[
+  TrendRestaurant(link: 'images/Tamasha.jpg'),
+  TrendRestaurant(link: 'images/TheJunkyardCafe.jpg'),
+  TrendRestaurant(link: 'images/38Barracks.jpg'),
+  TrendRestaurant(link: 'images/OhMy.jpg'),
+  TrendRestaurant(link: 'images/Local.jpg'),
+  TrendRestaurant(link: 'images/Connaught.jpg'),
+  TrendRestaurant(link: 'images/CafeHigh5.jpg'),
+  TrendRestaurant(link: 'images/Tamasha.jpg'),
+];
+class FRestaurant{
+  String link;
+  FRestaurant(
+    {required this.link}
+  );
+}
+List<FRestaurant>fRestaurant=[
+  FRestaurant(link: 'images/Tamasha.jpg'),
+  FRestaurant(link: 'images/OpenhouseCafe.jpg'),
+  FRestaurant(link: 'images/38Barracks.jpg'),
+  FRestaurant(link: 'images/OhMy.jpg'),
+  FRestaurant(link: 'images/StationBar.jpg'),
+  FRestaurant(link: 'images/Tamasha.jpg'),
+  FRestaurant(link: 'images/TheJunkyardCafe.jpg'),
+];

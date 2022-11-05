@@ -1,23 +1,34 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:myapp/HomeScreen.dart';
 import 'package:myapp/Menu.dart';
 import 'package:myapp/Reviews.dart';
 
 class Restaurant extends StatefulWidget {
-  const Restaurant({super.key});
+  
 
   @override
   State<Restaurant> createState() => _RestaurantState();
 }
 
 class _RestaurantState extends State<Restaurant> {
+  
   @override
   Widget build(BuildContext context) {
+    int select=0;int guest=0;
     final size=MediaQuery.of(context).size;
     return Scaffold(
       
-      body: NestedScrollView(
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('Restaurants').doc('Tamasha').snapshots(),
+        builder: (context, snapshot) {
+          if(!snapshot.hasData){
+            return Text('Loading');
+          }
+          var restDoc=snapshot.data;
+          return NestedScrollView(
         
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -31,7 +42,7 @@ class _RestaurantState extends State<Restaurant> {
                   
                   
                   background: Image.network(
-                    "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
+                    restDoc!['image'],
                     fit: BoxFit.cover,
                   )),
             ),
@@ -66,7 +77,7 @@ class _RestaurantState extends State<Restaurant> {
                     children: [
                       SizedBox(height: size.height*0.03,),
                       Text(
-                        'Tamasha',
+                        restDoc!['name'],
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 25,
@@ -74,7 +85,7 @@ class _RestaurantState extends State<Restaurant> {
                         ),
                       ),
                       Text(
-                        'Connaught Place, Central Delhi',
+                        restDoc!['add'],
                         style: TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 99, 98, 98),
@@ -179,7 +190,9 @@ class _RestaurantState extends State<Restaurant> {
                     context: context,
                     isScrollControlled: true,
                     builder: (context) {
-                      return  Padding(padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 15.0),
+                      return StatefulBuilder(
+                        builder: (context, setState) {
+                          return Padding(padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 15.0),
                         child: Container(
                           height: size.height*0.55,
                           width: size.width,
@@ -230,7 +243,7 @@ class _RestaurantState extends State<Restaurant> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        Text('Oct 2022',
+                                        Text('Nov 2022',
                                           style: TextStyle(
                                             fontSize: 20,
                                             color: Colors.black,
@@ -246,7 +259,7 @@ class _RestaurantState extends State<Restaurant> {
                                 height: size.height*0.08,
                                 width: size.width,
                                 child: ListView.builder(
-                                  itemCount: 10,
+                                  itemCount: 7,
                                   
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder: (context, index) {
@@ -254,18 +267,19 @@ class _RestaurantState extends State<Restaurant> {
                                       height: size.height*0.08,
                                       width: size.width/5,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10)
+                                        borderRadius: BorderRadius.circular(10),
+                                        
                                       ),
                                       child: Column(
                                         children: [
-                                          Text('Day',
+                                          Text(days[index].day,
                                             style: TextStyle(
                                               fontSize: 25,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           
                                           ),
-                                          Text('29',
+                                          Text((days[index].date).toString(),
                                           style: TextStyle(
                                             fontSize: 30,
                                             fontWeight: FontWeight.bold
@@ -280,7 +294,7 @@ class _RestaurantState extends State<Restaurant> {
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 10.0),
                                   child: Container(
-                                    height: size.height*0.22,
+                                    height: size.height*0.25,
                                     width: size.width,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),                        
@@ -297,219 +311,102 @@ class _RestaurantState extends State<Restaurant> {
                                     padding: EdgeInsets.symmetric(horizontal: 5.0),
                                     child: Column(
                                       children: [
-                                        Text('Time',
-                                          style: TextStyle(
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              
+                                        
+                                        Container(
+                                          height: size.height*0.22,
+                                          child: DefaultTabController(
+                                            length: 2,
+                                            initialIndex: 0,
+                                            
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+
                                               children: [
-                                                Text('Lunch',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.red),),
-                                                GestureDetector(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      color: Color.fromARGB(255, 249, 137, 137)
-                                                    ),
-                                                    height: 25,
-                                                    width: 100,
-                                                    child: Center(
-                                                      child: Text(
-                                                        'time',
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                                    ),
+                                                Container(
+                                                  height: size.height*0.04,
+                                                  child: TabBar(
+                                                    labelColor: Colors.red,
+                                                    unselectedLabelColor: Colors.black,
+                                                    tabs: [
+                                                      Tab(text: 'Lunch'),
+                                                      Tab(text: 'Dinner',)
+                                                    ],
                                                   ),
                                                 ),
-                                                SizedBox(height: size.height*0.003,),
-                                                GestureDetector(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      color: Color.fromARGB(255, 249, 137, 137)
-                                                    ),
-                                                    height: 25,
-                                                    width: 100,
-                                                    child: Center(
-                                                      child: Text(
-                                                        'time',
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
+                                                Container(
+                                                  height: size.height*0.18,
+                                                  
+                                                  child: TabBarView(
+                                                    children: [
+                                                      Container(
+                                                        height: size.height*0.2,
+                                                        width: size.width*0.2,
+                                                        
+                                                        
+                                                        child: ListView.builder(
+                                                          itemCount: 5,shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+                                                          itemBuilder: (context, index) {
+                                                            return GestureDetector(
+                                                              onTap: () {
+                                                                select=index;
+                                                                setState(() {
+                                                                  
+                                                                },);
+                                                              },
+                                                              child: Container(
+                                                                height: size.height*0.035,
+                                                                width: size.width*0.2,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20),
+                                                                  color: select==index?Colors.red:Colors.white,
+                                                                ),
+                                                                
+                                                                child: Center(
+                                                                  child: Text(timel[index].timel,style: TextStyle(color: Colors.black,fontSize: 20),),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        )
                                                       ),
-                                                    ),
+                                                      Container(
+                                                        height: size.height*0.22,
+                                                        width: size.width*0.2,
+                                                        
+                                                        child: ListView.builder(
+                                                          itemCount: 5,shrinkWrap: true,physics: NeverScrollableScrollPhysics(),
+                                                          itemBuilder: (context, index) {
+                                                            return GestureDetector(
+                                                              onTap: () {
+                                                                select=index;
+                                                                setState(() {
+                                                                  
+                                                                },);
+                                                              },
+                                                              child: Container(
+                                                                height: size.height*0.035,
+                                                                width: size.width*0.2,
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(20),
+                                                                  color: select==index?Colors.red:Colors.white,
+                                                                ),
+                                                                
+                                                                child: Center(
+                                                                  child: Text(timed[index].timed,style: TextStyle(color: Colors.black,fontSize: 20),),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        )
+                                                      )
+                                                      
+                                                    ],
                                                   ),
-                                                ),
-                                                SizedBox(height: size.height*0.003,),
-                                                GestureDetector(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      color: Color.fromARGB(255, 249, 137, 137)
-                                                    ),
-                                                    height: 25,
-                                                    width: 100,
-                                                    child: Center(
-                                                      child: Text(
-                                                        'time',
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(height: size.height*0.003,),
-                                                GestureDetector(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      color: Color.fromARGB(255, 249, 137, 137)
-                                                    ),
-                                                    height: 25,
-                                                    width: 100,
-                                                    child: Center(
-                                                      child: Text(
-                                                        'time',
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(height: size.height*0.003,),
-                                                GestureDetector(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      color: Color.fromARGB(255, 249, 137, 137)
-                                                    ),
-                                                    height: 25,
-                                                    width: 100,
-                                                    child: Center(
-                                                      child: Text(
-                                                        'time',
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                
+                                                )
                                               ],
                                             ),
-                                            Column(
-                                              crossAxisAlignment: CrossAxisAlignment.center,
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text('Dinner',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.red),),
-                                                GestureDetector(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      color: Color.fromARGB(255, 249, 137, 137)
-                                                    ),
-                                                    height: 25,
-                                                    width: 100,
-                                                    child: Center(
-                                                      child: Text(
-                                                        'time',
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(height: size.height*0.003,),
-                                                GestureDetector(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      color: Color.fromARGB(255, 249, 137, 137)
-                                                    ),
-                                                    height: 25,
-                                                    width: 100,
-                                                    child: Center(
-                                                      child: Text(
-                                                        'time',
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(height: size.height*0.003,),
-                                                GestureDetector(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      color: Color.fromARGB(255, 249, 137, 137)
-                                                    ),
-                                                    height: 25,
-                                                    width: 100,
-                                                    child: Center(
-                                                      child: Text(
-                                                        'time',
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(height: size.height*0.003,),
-                                                GestureDetector(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      color: Color.fromARGB(255, 249, 137, 137)
-                                                    ),
-                                                    height: 25,
-                                                    width: 100,
-                                                    child: Center(
-                                                      child: Text(
-                                                        'time',
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(height: size.height*0.003,),
-                                                GestureDetector(
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                      color: Color.fromARGB(255, 249, 137, 137)
-                                                    ),
-                                                    height: 25,
-                                                    width: 100,
-                                                    child: Center(
-                                                      child: Text(
-                                                        'time',
-                                                        style: TextStyle(
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                
-                                              ],
-                                            )
-                                          ],
+                                          ),
                                         )
                                       ],
                                     )
@@ -549,13 +446,329 @@ class _RestaurantState extends State<Restaurant> {
                                   ),
                                 ),
                                 onTap: () {
+                                  showModalBottomSheet(context: context, 
+                                  builder: ((context) {
+                                    return StatefulBuilder(
+                                        builder:((context, setState) {
+                                          return Padding(
+                                          
+                                            padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 15.0),
+                                            child: Container(
+                                              height: size.height*0.45,
+                                              width: size.width,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(10),
+                                                  topRight: Radius.circular(10),
+                                                ),
+                                                
+                                              ),
+                                              child: Scaffold(
+                                                appBar: AppBar(
+                                                  elevation: 0,
+                                                  backgroundColor: Colors.white,
+                                                  iconTheme: IconThemeData(color: Colors.black),
+                                                  title: Text('SELECT GUESTS',
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: Colors.black
+                                                    ),
+                                                  ),
+                                                ),
+                                                body: Container(
+                                                  height: size.height*0.4,
+                                                  width: size.width,
+                                                  child: Column(
+                                                    children: [
+                                                      Padding(
+                                                    padding: EdgeInsets.all(20),
+                                                    child: Container(
+                                                      height: size.height*0.1,
+                                                      width: size.width,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(20),
+                                                        border: Border.all(color: Colors.red),
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                        children: [
+                                                          Text('Flat 20% Off the Total Bill',
+                                                            style: TextStyle(
+                                                              fontSize: 22,
+                                                              fontWeight: FontWeight.bold,
+                                                            ),
+                                                          ),
+                                                          
+                                                          Icon(FontAwesomeIcons.gift,color: Colors.red,size: 22,)
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.all(20),
+                                                    child: Container(
+                                                      height: size.height*0.08,
+                                                      width: size.width,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(20),
+                                                        border: Border.all(color: Colors.red),
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                        children: [
+                                                          Text('Guests',
+                                                            style: TextStyle(
+                                                              fontSize: 22,
+                                                              fontWeight: FontWeight.bold,
+                                                            ),
+                                                          ),
+                                                          
+                                                          Row(
+                                                            children: [
+                                                              IconButton(
+                                                                icon:Icon(FontAwesomeIcons.minus,),
+                                                                iconSize: 22,
+                                                                onPressed: () {
+                                                                  if(guest>0){
+                                                                    setState(() {
+                                                                      guest=guest-1;
+                                                                    },);
+                                                                  }
+                                                                },
+                                                              ),
+                                                              Text(guest.toString(),style: TextStyle(fontSize: 22,color: Colors.red),),
+                                                              IconButton(
+                                                                icon:Icon(FontAwesomeIcons.plus),
+                                                                iconSize: 22,
+                                                                onPressed: () {
+                                                                  if(guest<=10){
+                                                                    setState(() {
+                                                                      guest=guest+1;
+                                                                    },);
+                                                                  }
+                                                                },
+                                                              )
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20.0),
+                                child: GestureDetector(
+                                  child: Container(
+                                  height: size.height*0.06,
+                                  width: size.width,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(18),                        
+                                    color: Colors.white,
+                                    boxShadow: [BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(0.0, 0.0),
+                                      blurRadius: 2.0,
+                                      spreadRadius: 0.0,
+                                      blurStyle: BlurStyle.normal
+                                    ),]
+                                  ),
+                                  child: Padding(padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text('Continue',
+                                          style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
+                                  if(guest>0){
+                                    
+                                  showModalBottomSheet(context: context, isScrollControlled: true,
+                                    builder: ((context) {
+                                      return StatefulBuilder(builder: ((context, setState) {
+                                        return Padding(padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 15.0),
+                                          child: Container(
+                                            height: size.height*0.5,
+                                              width: size.width,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(10),
+                                                  topRight: Radius.circular(10),
+                                                ),
+                                                
+                                              ),
+                                              child: Scaffold(
+                                                appBar: AppBar(
+                                                  elevation: 0,
+                                                  backgroundColor: Colors.white,
+                                                  iconTheme: IconThemeData(color: Colors.black),
+                                                  title: Text('CONFIRM DETAILS',
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: Colors.black
+                                                    ),
+                                                  ),
+                                                ),
+                                                body: Container(
+                                                  height: size.height*0.4,
+                                                  width: size.width,
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Padding(
+                                                    padding: EdgeInsets.all(20),
+                                                    child: Container(
+                                                      height: size.height*0.05,
+                                                      width: size.width,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(20),
+                                                        border: Border.all(color: Colors.red),
+                                                      ),
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                        children: [
+                                                          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                            children: [
+                                                              Icon(FontAwesomeIcons.peopleGroup,size: 18,color: Colors.black,),
+                                                              Text(' '+guest.toString()+'Guests',
+                                                            style: TextStyle(
+                                                              fontSize: 18,
+                                                              fontWeight: FontWeight.bold,
+                                                              color: Colors.black
+                                                            ),
+                                                          ),
+                                                            ],
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                            children: [
+                                                              Icon(FontAwesomeIcons.calendar,size: 18,color: Colors.black,),
+                                                              Text('Date ',
+                                                            style: TextStyle(
+                                                              fontSize: 18,
+                                                              
+                                                              color: Colors.black
+                                                            ),
+                                                          ),
+                                                          Text('time ',
+                                                            style: TextStyle(
+                                                              fontSize: 18,
+                                                              fontWeight: FontWeight.bold,
+                                                              color: Colors.black
+                                                            ),
+                                                          ),
+                                                            ],
+                                                          )
+                                                          
+                                                          
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding: EdgeInsets.all(20),
+                                                    child: Container(
+                                                      height: size.height*0.24,
+                                                      width: size.width,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius.circular(20),
+                                                        border: Border.all(color: Colors.red),
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                        children: [
+                                                          Text('Your Details',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Colors.black),),
+                                                          Padding(padding: EdgeInsets.symmetric(horizontal: 10),
+                                                            child: Text('name',style: TextStyle(fontSize: 20,color: Colors.black),),
+                                                          ),
+                                                          Padding(padding: EdgeInsets.symmetric(horizontal: 10),
+                                                            child: Text('phone',style: TextStyle(fontSize: 20,color: Colors.black),),
+                                                          ),
+                                                          Padding(padding: EdgeInsets.symmetric(horizontal: 10),
+                                                            child: Text('Email',style: TextStyle(fontSize: 20,color: Colors.black),),
+                                                          ),
+                                                          Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 20.0),
+                                child: GestureDetector(
+                                  child: Container(
+                                  height: size.height*0.06,
+                                  width: size.width,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(18),                        
+                                    color: Colors.white,
+                                    boxShadow: [BoxShadow(
+                                      color: Colors.black,
+                                      offset: Offset(0.0, 0.0),
+                                      blurRadius: 2.0,
+                                      spreadRadius: 0.0,
+                                      blurStyle: BlurStyle.normal
+                                    ),]
+                                  ),
+                                  child: Padding(padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text('Confirm',
+                                          style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                onTap: () {
                                   
+                                },
+                                ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    
+                                                  ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                          ),
+                                        );
+                                      }));
+                                    })
+                                  );
+                                  }
+                                },
+                                )
+                                )
+                                                    ],
+                                                  )
+                                                ),
+                                              )
+                                            ),
+                                          );
+                                        }) 
+                                      );
+                                  })
+                                  );
                                 },
                                 ),
                               ),    
                             ],
                           ),
                         ),
+                      );
+                        },
                       );
                       
                     },
@@ -655,7 +868,7 @@ class _RestaurantState extends State<Restaurant> {
                         height: size.height*0.15,
                         width: size.width,
                         child: Text(
-                        'hutyuidfghjxcvbdfghjjbyughhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhd',
+                        restDoc!['about'],
                         style: TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 99, 98, 98),
@@ -682,7 +895,7 @@ class _RestaurantState extends State<Restaurant> {
                                   ),
                                 ),
                                 Text(
-                                  'Continental, Asian, Italian, North Indian',
+                                  restDoc!['cuisine'],
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 99, 98, 98),
@@ -713,7 +926,7 @@ class _RestaurantState extends State<Restaurant> {
                                   ),
                                 ),
                                 Text(
-                                  'Nightlife',
+                                  restDoc!['ET'],
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 99, 98, 98),
@@ -743,7 +956,7 @@ class _RestaurantState extends State<Restaurant> {
                                   ),
                                 ),
                                 Text(
-                                  'bdjbwk,stigsuuuuuuuuuuuu',
+                                  restDoc!['MT'],
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 99, 98, 98),
@@ -775,7 +988,7 @@ class _RestaurantState extends State<Restaurant> {
                                 Row(
                                   children: [
                                     Text(
-                                      '\u{20B9}2000* for 2 ',
+                                      '\u{20B9} '+restDoc!['AC'],
                                       style: TextStyle(
                                         fontSize: 18,
                                         color: Colors.black,
@@ -1081,7 +1294,9 @@ class _RestaurantState extends State<Restaurant> {
           ),
           ),
         ),
-        )
+        );
+        },
+      )
           
         
       );
@@ -1090,3 +1305,44 @@ class _RestaurantState extends State<Restaurant> {
   }
 
 }
+class Day{
+  String day,date;
+  Day(
+    {required this.day,required this.date}
+  );
+}
+List<Day>days=[
+  Day(day: 'Sun',date: '5'),
+  Day(day: 'Mon',date: '6'),
+  Day(day: 'Tue',date: '7'),
+  Day(day: 'Wed',date: '8'),
+  Day(day: 'Thu',date: '9'),
+  Day(day: 'Fri',date: '10'),
+  Day(day: 'Sat',date: '11'),
+];
+class Timel{
+  String timel;
+  Timel(
+    {required this.timel}
+  );
+}
+List<Timel>timel=[
+  Timel(timel: '12:00 pm'),
+  Timel(timel: '12:30 pm'),
+  Timel(timel: '01:00 pm'),
+  Timel(timel: '01:30 pm'),
+  Timel(timel: '2:00 pm'),
+];
+class Timed{
+  String timed;
+  Timed(
+    {required this.timed}
+  );
+}
+List<Timed>timed=[
+  Timed(timed: '07:00 pm'),
+  Timed(timed: '07:30 pm'),
+  Timed(timed: '08:00 pm'),
+  Timed(timed: '08:30 pm'),
+  Timed(timed: '09:00 pm'),
+];

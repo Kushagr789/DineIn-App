@@ -109,23 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(20, 20, 40, 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                      child:  Text("Forget Password",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(255, 239, 75, 4),
-                                ),
-                              ),
-                              onTap: (){},
-                    ),
-                        ],
-                      ),
-                    ),
+                    
                     SizedBox(height: 20,),
                     GestureDetector(
                       child: Container(

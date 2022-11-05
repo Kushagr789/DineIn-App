@@ -203,7 +203,7 @@ class _RegisterState extends State<Register> {
                         });
                         try {
                           final newUser=await _auth.createNewUser(username,firstname, lastname, phone, email, password);
-                          if(newUser!=null){
+                          if(newUser!=null&&confirmpassword==password){
                             
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginPage()));
                           }
