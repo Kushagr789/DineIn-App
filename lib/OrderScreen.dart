@@ -235,7 +235,7 @@ class OrderScreen extends StatelessWidget {
           Container(
             height: size.height / 6,
             width: size.height / 6,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
                 image: NetworkImage(

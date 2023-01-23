@@ -1,5 +1,6 @@
 
 
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/HomePage.dart';
 import 'package:myapp/LoginPage.dart';
 import 'package:myapp/services/auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 class Register extends StatefulWidget {
   const Register({super.key});
 
@@ -51,7 +53,7 @@ class _RegisterState extends State<Register> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 30,),
+              SizedBox(height: 50,),
               Text(
                 'Create Account',
                 style: TextStyle(
@@ -60,9 +62,9 @@ class _RegisterState extends State<Register> {
                   fontSize: 45,
                 ),
               ),
-              SizedBox(height: 10,),
+              SizedBox(height: 30,),
               Container(
-                height:600,
+                height:500,
                 width: 325,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
@@ -76,25 +78,16 @@ class _RegisterState extends State<Register> {
                   ]
                 ),
                 
-                child: Column(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(height: 30,),
+                    
                     Container(
                       width: 250,
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Username',
-                          suffixIcon: Icon(FontAwesomeIcons.user,size: 17,),
-                        ),
-                        onChanged: (value) {
-                          username=value;
-                        },
-                      ),
-                    ),
-                    Container(
-                      width: 250,
-                      child: TextField(
+                      child: TextFormField(
                         decoration: InputDecoration(
                           labelText: 'First Name',
                           suffixIcon: Icon(FontAwesomeIcons.info,size: 17,),
@@ -102,11 +95,17 @@ class _RegisterState extends State<Register> {
                         onChanged: (value) {
                           firstname=value;
                         },
+                        validator: (value) {
+                          if(value==null||value.isEmpty)
+                          return 'Please enter some text';
+                          
+                          return null;
+                        },
                       ),
                     ),
                     Container(
                       width: 250,
-                      child: TextField(
+                      child: TextFormField(
                         decoration: InputDecoration(
                           labelText: 'Last Name',
                           suffixIcon: Icon(FontAwesomeIcons.info,size: 17,),
@@ -114,11 +113,17 @@ class _RegisterState extends State<Register> {
                         onChanged: (value) {
                           lastname=value;
                         },
+                        validator: (value) {
+                          if(value==null||value.isEmpty)
+                          return 'Please enter some text';
+                          
+                          return null;
+                        },
                       ),
                     ),
                     Container(
                       width: 250,
-                      child: TextField(
+                      child: TextFormField(
                         decoration: InputDecoration(
                           labelText: 'Email',
                           suffixIcon: Icon(FontAwesomeIcons.envelope,size: 17,),
@@ -128,11 +133,18 @@ class _RegisterState extends State<Register> {
                         onChanged: (value) {
                           email=value;
                         },
+                        validator: (value) {
+                          if(value==null||value.isEmpty||value.contains('@')==false)
+                          return 'Please enter valid email';
+                          
+                          
+                          return null;
+                        },
                       ),
                     ),
                     Container(
                       width: 250,
-                      child: TextField(
+                      child: TextFormField(
                         obscureText: true,
                         decoration: InputDecoration(
                           labelText: 'Password',
@@ -141,11 +153,20 @@ class _RegisterState extends State<Register> {
                         onChanged: (value) {
                           password=value;
                         },
+                        validator: (value) {
+                          if(value==null||value.isEmpty)
+                          return 'Please enter some text';
+                          else if(value.length<7)
+                          return 'Password must have more than 6 alphabets';
+                          else ;
+                          
+                          return null;
+                        },
                       ),
                     ),
                     Container(
                       width: 250,
-                      child: TextField(
+                      child: TextFormField(
                         obscureText: true,
                         decoration: InputDecoration(
                           labelText: 'Confirm Password',
@@ -154,17 +175,31 @@ class _RegisterState extends State<Register> {
                         onChanged: (value) {
                           confirmpassword=value;
                         },
+                        validator: (value) {
+                          if(value==null||value.isEmpty)
+                          return 'Please enter some text';
+                          else if(value!=password)
+                          return 'Passwords does not match';
+                          
+                          return null;
+                        },
                       ),
                     ),
                     Container(
                       width: 250,
-                      child: TextField(
+                      child: TextFormField(
                         decoration: InputDecoration(
                           labelText: 'Contact No.',
                           suffixIcon: Icon(FontAwesomeIcons.phone,size: 17,),
                         ),
                         onChanged: (value) {
                           phone=value;
+                        },
+                        validator: (value) {
+                          if(value==null||value.isEmpty||value.length<10)
+                          return 'Please enter valid phone number';
+                          
+                          return null;
                         },
                         keyboardType: TextInputType.phone,
                       ),
@@ -188,7 +223,7 @@ class _RegisterState extends State<Register> {
                         ),
                         child: Padding(
                           padding: EdgeInsets.all(12.0),
-                          child: Text('Sign Up',
+                          child: Text('Register',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -202,14 +237,23 @@ class _RegisterState extends State<Register> {
                           showSpinner=true;
                         });
                         try {
-                          final newUser=await _auth.createNewUser(username,firstname, lastname, phone, email, password);
-                          if(newUser!=null&&confirmpassword==password){
-                            
+                          
+                          if(_formKey.currentState!.validate()){
+                            final newUser=await _auth.createNewUser(username,firstname, lastname, phone, email, password)
+                            ;
+                            if(newUser!=null)
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginPage()));
+                            else
+                            showToast('This email already exist');
+                            
                           }
                         }catch(e) {
-                            print(e);
-                          }
+                          
+                         
+                          
+      }
+
+                          
                           setState(() {
                             showSpinner=false;
                           });
@@ -220,6 +264,7 @@ class _RegisterState extends State<Register> {
                     
                   ],
                 ),
+                )
               )
             ],
           ), 
@@ -227,5 +272,15 @@ class _RegisterState extends State<Register> {
       )
     );    
   }
-  
+  void showToast(String ms) {  
+    Fluttertoast.showToast(  
+        msg: ms,  
+        toastLength: Toast.LENGTH_SHORT,  
+        gravity: ToastGravity.BOTTOM,  
+        
+        backgroundColor: Colors.white,  
+        textColor: Colors.black 
+    );  
+  }  
+
 }

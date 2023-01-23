@@ -43,6 +43,11 @@ dependencies:
   firebase_core: ^2.1.0
   flutter_rating_bar: ^4.0.1
   percent_indicator: ^4.2.2
+  fluttertoast: ^8.1.2
+  geolocator: ^9.0.2
+  geocoding: ^2.0.5
+  location: ^4.4.0
+  permission_handler: ^10.2.0
   
   
 

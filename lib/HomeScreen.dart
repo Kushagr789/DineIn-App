@@ -1,11 +1,13 @@
 import 'dart:ui';
 
 import 'package:myapp/MyAccount.dart';
-
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/const.dart';
 import 'package:myapp/restaurant.dart';
+import 'package:myapp/services/Location.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -14,9 +16,77 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String? _currentAddress='your location';
+  Position? _currentPosition;
+  
+
+  Future<bool> _handleLocationPermission() async{
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled=await Geolocator.isLocationServiceEnabled();
+    if(!serviceEnabled){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Location services are disabled.Please enable the services'))
+      );
+      return false;
+    }
+
+    permission=await Geolocator.checkPermission();
+    if(permission==LocationPermission.denied){
+      permission=await Geolocator.requestPermission();
+      if(permission==LocationPermission.denied){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Location permissions are denied'))
+        );
+        return false;
+      }
+    }
+    if(permission==LocationPermission.deniedForever){
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Location permissions are permanently denied, we cannot request permissions.'))
+      );
+      return false;
+    }
+    return true;
+  }
+  Future<void> _getCurrentPosition() async{
+    final hasPermission=await _handleLocationPermission();
+
+    if(!hasPermission) return;
+    await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.bestForNavigation
+    ).then((Position position) {
+      setState(() => _currentPosition=position,);
+      _getAddressFromLatLng(_currentPosition!);
+    },).catchError((e) {
+      debugPrint(e.toString());
+    });
+  }
+
+  Future<void> _getAddressFromLatLng(Position position) async {
+    await placemarkFromCoordinates(
+            _currentPosition!.latitude, _currentPosition!.longitude)
+        .then((List<Placemark> placemarks) {
+      Placemark place = placemarks[0];
+      setState(() {
+        _currentAddress =
+            '${place.locality}'+', '+'${place.administrativeArea}';
+      });
+    }).catchError((e) {
+      debugPrint(e.toString());
+    });
+  }
+
+  void initState(){
+     _getCurrentPosition();
+     super.initState();
+    
+  }
   
   @override
   Widget build(BuildContext context) {
+    
     final size=MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -26,27 +96,39 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 height: size.height/10,
                 width: size.width,
+                padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Icon(
-                            FontAwesomeIcons.locationArrow,
-                            color: Colors.black,
-                            ),
+                    Padding(padding: const EdgeInsets.all(10.0),
+                      child: GestureDetector(
+                        child: Container(
+                          
+                          child: Row(                            
+                            children: [
+                              Icon(
+                                FontAwesomeIcons.locationArrow,
+                                color: Colors.red,
+                                size: 20,
+                              ),
+                              Text(
+                                _currentAddress.toString(),
+                                style: TextStyle(
+                                  fontSize: 18,fontWeight: FontWeight.bold,color: Colors.red
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                    Text(
-                      "Add Your Location Here",
-                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      width: size.width/5,
-                    ),
+                    
+                    
                     IconButton(
                       onPressed: () {
                         Navigator.push(context,MaterialPageRoute(builder: (context)=>MyAccount()));
                       },
-                      icon: Icon(FontAwesomeIcons.user)
+                      icon: Icon(FontAwesomeIcons.user,)
                     ),
                   ],
       
@@ -144,9 +226,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         
                         width: size.width*0.48,
                         margin: EdgeInsets.all(10),// add margin 
-                        padding: EdgeInsets.all(10),// add padding
+                        // add padding
                         decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                          borderRadius: const BorderRadius.only(bottomLeft:Radius.circular(10.0),bottomRight: Radius.circular(10.0)),
                           color: Colors.white,
                         
                           border: Border.fromBorderSide(
@@ -155,11 +237,75 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: 1.0,
                             ),
                           ),
-                          image: DecorationImage(
-                                  image: AssetImage(dineRestaurant[index].url),fit: BoxFit.cover
-                                )
+                          //image: DecorationImage(
+                                 //image: AssetImage(dineRestaurant[index].url),fit: BoxFit.cover
+                                //)
                         ),
-                        
+                        child: Column(
+                          children: [
+                            Container(
+                              width: size.width*0.48,
+                              height: size.height*0.216,
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                              child: Stack(
+                              children: [
+                                Container(
+                                  
+                                  width: size.width*0.48,
+                                  height: size.height*0.208,
+                                  child: Image.network('https://im1.dineout.co.in/images/uploads/restaurant/sharpen/3/u/v/p3239-147063420957a818e1ecbd1.jpg?tr=tr:n-xlarge',fit: BoxFit.cover,),
+                                ),
+                                Positioned(
+                                  top: size.height*0.19,
+                                  left: size.width*0.01,
+                                  child: Container(
+                                  width: size.width*0.12,
+                                  height: size.height*0.025,
+                                  
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: Colors.lightGreen,),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                    Icon(FontAwesomeIcons.solidStar,size: 10,color: Colors.white,),
+                                    Text('4.5',style: TextStyle(fontSize: 15,color: Colors.white,fontWeight: FontWeight.bold),)
+                                  ],)
+                                ),
+                                ),
+                                Positioned(
+                                  top: size.height*0.16,
+                                  left: size.width*0.33,
+                                  child: Container(
+                                  width: size.width*0.13,
+                                  height: size.height*0.02,
+                                  
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color:  Color.fromARGB(100, 22, 44, 33)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                    
+                                    Text('4.5 km',style: TextStyle(fontSize: 13,color: Colors.white,fontWeight: FontWeight.bold),)
+                                  ],)
+                                ),
+                                )
+
+                              ],
+                            ),
+                            ),
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text('Saqi Bar',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                                  Text('Connaught Place, Central Delhi',style: TextStyle(fontSize: 12,color: Colors.grey,fontWeight: FontWeight.bold),),
+                                  Text('Flat 20% Off the Toral Bill',style: TextStyle(fontSize: 12,color: Colors.lightGreen,fontWeight: FontWeight.bold),)
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                       onTap: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>Restaurant()));
@@ -212,19 +358,84 @@ class _HomeScreenState extends State<HomeScreen> {
                         
                         width: size.width*0.48,
                         margin: EdgeInsets.all(10),// add margin 
-                        padding: EdgeInsets.all(10),// add padding
+                        // add padding
                         decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                          borderRadius: const BorderRadius.only(bottomLeft:Radius.circular(10.0),bottomRight: Radius.circular(10.0)),
                           color: Colors.white,
+                        
                           border: Border.fromBorderSide(
                             BorderSide(
                               color: Color(0xFF8D4AE9),
                               width: 1.0,
                             ),
                           ),
-                          image: DecorationImage(
-                                  image: AssetImage(trendRestaurant[index].link),fit: BoxFit.cover
+                          //image: DecorationImage(
+                                 //image: AssetImage(dineRestaurant[index].url),fit: BoxFit.cover
+                                //)
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              width: size.width*0.48,
+                              height: size.height*0.216,
+                              
+                              child: Stack(
+                              children: [
+                                Container(
+                                  width: size.width*0.48,
+                                  height: size.height*0.208,
+                                  child: Image.network('https://im1.dineout.co.in/images/uploads/restaurant/sharpen/3/u/v/p3239-147063420957a818e1ecbd1.jpg?tr=tr:n-xlarge',fit: BoxFit.cover,),
+                                ),
+                                Positioned(
+                                  top: size.height*0.19,
+                                  left: size.width*0.01,
+                                  child: Container(
+                                  width: size.width*0.12,
+                                  height: size.height*0.025,
+                                  
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: Colors.lightGreen,),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                    Icon(FontAwesomeIcons.solidStar,size: 10,color: Colors.white,),
+                                    Text('4.5',style: TextStyle(fontSize: 15,color: Colors.white,fontWeight: FontWeight.bold),)
+                                  ],)
+                                ),
+                                ),
+                                Positioned(
+                                  top: size.height*0.16,
+                                  left: size.width*0.33,
+                                  child: Container(
+                                  width: size.width*0.13,
+                                  height: size.height*0.02,
+                                  
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color:  Color.fromARGB(100, 22, 44, 33)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                    
+                                    Text('4.5 km',style: TextStyle(fontSize: 13,color: Colors.white,fontWeight: FontWeight.bold),)
+                                  ],)
+                                ),
                                 )
+
+                              ],
+                            ),
+                            ),
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text('Saqi Bar',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                                  Text('Connaught Place, Central Delhi',style: TextStyle(fontSize: 12,color: Colors.grey,fontWeight: FontWeight.bold),),
+                                  Text('Flat 20% Off the Toral Bill',style: TextStyle(fontSize: 12,color: Colors.lightGreen,fontWeight: FontWeight.bold),)
+                                ],
+                              ),
+                            )
+                          ],
                         ),
                       ),
                       onTap: () {
@@ -278,19 +489,84 @@ class _HomeScreenState extends State<HomeScreen> {
                         
                         width: size.width*0.48,
                         margin: EdgeInsets.all(10),// add margin 
-                        padding: EdgeInsets.all(10),// add padding
+                        // add padding
                         decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                          borderRadius: const BorderRadius.only(bottomLeft:Radius.circular(10.0),bottomRight: Radius.circular(10.0)),
                           color: Colors.white,
+                        
                           border: Border.fromBorderSide(
                             BorderSide(
                               color: Color(0xFF8D4AE9),
                               width: 1.0,
                             ),
                           ),
-                          image: DecorationImage(
-                                  image: AssetImage(fRestaurant[index].link),fit: BoxFit.cover
+                          //image: DecorationImage(
+                                 //image: AssetImage(dineRestaurant[index].url),fit: BoxFit.cover
+                                //)
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              width: size.width*0.48,
+                              height: size.height*0.19,
+                              
+                              child: Stack(
+                              children: [
+                                Container(
+                                  width: size.width*0.48,
+                                  height: size.height*0.18,
+                                  child: Image.network('https://im1.dineout.co.in/images/uploads/restaurant/sharpen/3/u/v/p3239-147063420957a818e1ecbd1.jpg?tr=tr:n-xlarge',fit: BoxFit.cover,),
+                                ),
+                                Positioned(
+                                  top: size.height*0.164,
+                                  left: size.width*0.01,
+                                  child: Container(
+                                  width: size.width*0.12,
+                                  height: size.height*0.025,
+                                  
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: Colors.lightGreen,),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                    Icon(FontAwesomeIcons.solidStar,size: 10,color: Colors.white,),
+                                    Text('4.5',style: TextStyle(fontSize: 15,color: Colors.white,fontWeight: FontWeight.bold),)
+                                  ],)
+                                ),
+                                ),
+                                Positioned(
+                                  top: size.height*0.12,
+                                  left: size.width*0.33,
+                                  child: Container(
+                                  width: size.width*0.13,
+                                  height: size.height*0.02,
+                                  
+                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color:  Color.fromARGB(100, 22, 44, 33)),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                    
+                                    Text('4.5 km',style: TextStyle(fontSize: 13,color: Colors.white,fontWeight: FontWeight.bold),)
+                                  ],)
+                                ),
                                 )
+
+                              ],
+                            ),
+                            ),
+                            Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text('Saqi Bar',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                                  Text('Connaught Place, Central Delhi',style: TextStyle(fontSize: 12,color: Colors.grey,fontWeight: FontWeight.bold),),
+                                  
+                                ],
+                              ),
+                            )
+                          ],
                         ),
                       ),
                       onTap: () {

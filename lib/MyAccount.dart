@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:myapp/LoginPage.dart';
 import 'package:myapp/services/auth.dart';
 import 'package:myapp/services/database.dart';
 
@@ -17,16 +18,52 @@ class MyAccount extends StatefulWidget {
 
 class _MyAccountState extends State<MyAccount> {
   final AuthService _auth=AuthService();
+  
 
   List userProfilelist=[];
 
   String userId="";
+  String name="";
+  dynamic user;
+  String? get;
 
   @override
   
+  @override
+  void initState() {
+    // TODO: implement initState
+    
+     user=FirebaseAuth.instance.currentUser;
+     userId=user.uid;
+     get=userId.toString();
+    
+    
+    final docRef=FirebaseFirestore.instance.collection("users").doc('kush')
+    .get().then(
+      (DocumentSnapshot doc){
+        
+        
+        final data=doc.data() as Map<String, dynamic>;
+        setState(() {
+          name=data['firstname'].toString();
+        });
+      
+        
+        
+      },
+      onError: (e)=>print("Error getting document: $e")
+    );
+    
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    
+    
+    
+    
+
     return Scaffold(
       appBar: AppBar(
         title: Text('My Account',
@@ -45,18 +82,7 @@ class _MyAccountState extends State<MyAccount> {
         backgroundColor: Colors.white,
         
       ),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('users').snapshots(),
-        builder: (context, snapshot) {
-          if(!snapshot.hasData)
-          {
-            return Center(
-          child: CircularProgressIndicator(),
-        );
-          }
-          return ListView(
-            children: snapshot.data!.docs.map((document) {
-              return SingleChildScrollView(
+      body:  SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height*1.2,
           width: MediaQuery.of(context).size.width,
@@ -76,7 +102,7 @@ class _MyAccountState extends State<MyAccount> {
                       SizedBox(width: MediaQuery.of(context).size.width/20,),
                       Icon(FontAwesomeIcons.user),
                       SizedBox(width: MediaQuery.of(context).size.width/20,),
-                      Text(document['firstname'],
+                      Text(name,
                         style: TextStyle(
                           fontSize: 25,
                           color: Colors.red,
@@ -510,6 +536,11 @@ class _MyAccountState extends State<MyAccount> {
                         ),
                         
                       ),
+                      onTap: () {
+                        FirebaseAuth.instance.signOut();
+                        
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>LoginPage()));
+                      },
                         
                     ),
                     
@@ -521,13 +552,11 @@ class _MyAccountState extends State<MyAccount> {
             ],
           ),
         ),
-      );
-            }).toList(),
-            
-          );
-        },
       )
-    ) ;
+            
+        
+      
+    );
   }
   
 }

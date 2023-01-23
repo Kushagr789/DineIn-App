@@ -42,7 +42,7 @@ class _RestaurantState extends State<Restaurant> {
                   
                   
                   background: Image.network(
-                    restDoc!['image'],
+                    restDoc['image'],
                     fit: BoxFit.cover,
                   )),
             ),
@@ -85,7 +85,7 @@ class _RestaurantState extends State<Restaurant> {
                         ),
                       ),
                       Text(
-                        restDoc!['add'],
+                        restDoc['add'],
                         style: TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 99, 98, 98),
@@ -868,7 +868,7 @@ class _RestaurantState extends State<Restaurant> {
                         height: size.height*0.15,
                         width: size.width,
                         child: Text(
-                        restDoc!['about'],
+                        restDoc['about'],
                         style: TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 99, 98, 98),
@@ -895,7 +895,7 @@ class _RestaurantState extends State<Restaurant> {
                                   ),
                                 ),
                                 Text(
-                                  restDoc!['cuisine'],
+                                  restDoc['cuisine'],
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 99, 98, 98),
@@ -926,7 +926,7 @@ class _RestaurantState extends State<Restaurant> {
                                   ),
                                 ),
                                 Text(
-                                  restDoc!['ET'],
+                                  restDoc['ET'],
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 99, 98, 98),
@@ -956,7 +956,7 @@ class _RestaurantState extends State<Restaurant> {
                                   ),
                                 ),
                                 Text(
-                                  restDoc!['MT'],
+                                  restDoc['MT'],
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 99, 98, 98),
@@ -988,7 +988,7 @@ class _RestaurantState extends State<Restaurant> {
                                 Row(
                                   children: [
                                     Text(
-                                      '\u{20B9} '+restDoc!['AC'],
+                                      '\u{20B9} '+restDoc['AC'],
                                       style: TextStyle(
                                         fontSize: 18,
                                         color: Colors.black,
