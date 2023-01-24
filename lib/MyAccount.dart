@@ -8,6 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/LoginPage.dart';
 import 'package:myapp/services/auth.dart';
 import 'package:myapp/services/database.dart';
+import 'package:myapp/Data/User.dart' ;
 
 class MyAccount extends StatefulWidget {
   const MyAccount({super.key});
@@ -19,40 +20,17 @@ class MyAccount extends StatefulWidget {
 class _MyAccountState extends State<MyAccount> {
   final AuthService _auth=AuthService();
   
-
-  List userProfilelist=[];
-
-  String userId="";
-  String name="";
-  dynamic user;
-  String? get;
-
+String n="";
   @override
-  
+ 
   @override
-  void initState() {
+  void initState()  {
     // TODO: implement initState
     
-     user=FirebaseAuth.instance.currentUser;
-     userId=user.uid;
-     get=userId.toString();
     
     
-    final docRef=FirebaseFirestore.instance.collection("users").doc('kush')
-    .get().then(
-      (DocumentSnapshot doc){
-        
-        
-        final data=doc.data() as Map<String, dynamic>;
-        setState(() {
-          name=data['firstname'].toString();
-        });
-      
-        
-        
-      },
-      onError: (e)=>print("Error getting document: $e")
-    );
+    DataBaseServices().getInfo();
+    
     
     super.initState();
   }
@@ -102,7 +80,7 @@ class _MyAccountState extends State<MyAccount> {
                       SizedBox(width: MediaQuery.of(context).size.width/20,),
                       Icon(FontAwesomeIcons.user),
                       SizedBox(width: MediaQuery.of(context).size.width/20,),
-                      Text(name,
+                      Text(UserData.name,
                         style: TextStyle(
                           fontSize: 25,
                           color: Colors.red,

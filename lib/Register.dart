@@ -239,6 +239,7 @@ class _RegisterState extends State<Register> {
                         try {
                           
                           if(_formKey.currentState!.validate()){
+                            
                             final newUser=await _auth.createNewUser(username,firstname, lastname, phone, email, password)
                             ;
                             if(newUser!=null)

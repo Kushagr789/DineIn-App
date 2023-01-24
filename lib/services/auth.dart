@@ -9,7 +9,8 @@ class AuthService{
     try{
       UserCredential result=await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User? user=result.user;
-      await DataBaseServices().createUserData(username,firstname, lastname, phone, email);
+      String? uid=await FirebaseAuth.instance.currentUser?.uid.toString();
+      await DataBaseServices().createUserData(username,firstname, lastname, phone, email,uid);
       return user;
     }catch(e){
       print(e.toString());

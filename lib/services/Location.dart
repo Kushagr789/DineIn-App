@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
-class Location{
+import 'package:myapp/Data/User.dart';
+class LocationGet{
 
-  String? _currentAddress;
-  Position? _currentPosition;
+  
 
   Future<bool> _handleLocationPermission(context) async{
     bool serviceEnabled;
@@ -38,15 +38,16 @@ class Location{
   }
 
 
-  Future<void> _getCurrentPosition(context) async{
+  Future<void> getCurrentPosition(context) async{
     final hasPermission=await _handleLocationPermission(context);
 
     if(!hasPermission)return;
     await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high
     ).then((Position position) {
-      _currentPosition=position;
-      _getAddressFromLatLng(_currentPosition!);
+       
+       UserData.currentPosition=position;
+      _getAddressFromLatLng(UserData.currentPosition!);
     } ).catchError((e){
       debugPrint(e);
     });
@@ -54,10 +55,10 @@ class Location{
 
   Future<void> _getAddressFromLatLng(Position position) async{
     await placemarkFromCoordinates(
-      _currentPosition!.latitude,_currentPosition!.longitude
+      UserData.currentPosition!.latitude,UserData.currentPosition!.longitude
     ).then((List<Placemark> placemarks) {
       Placemark place =placemarks[0];
-      _currentAddress=place.locality;
+      UserData.currentAddress='${place.locality}'+', '+'${place.administrativeArea}';
     } ).catchError((e){
       debugPrint(e);
     });
