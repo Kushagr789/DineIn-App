@@ -59,6 +59,7 @@ class LocationGet{
     ).then((List<Placemark> placemarks) {
       Placemark place =placemarks[0];
       UserData.currentAddress='${place.locality}'+', '+'${place.administrativeArea}';
+      print(UserData.currentAddress);
     } ).catchError((e){
       debugPrint(e);
     });

@@ -24,16 +24,7 @@ String n="";
   @override
  
   @override
-  void initState()  {
-    // TODO: implement initState
-    
-    
-    
-    DataBaseServices().getInfo();
-    
-    
-    super.initState();
-  }
+  
 
   @override
   Widget build(BuildContext context) {

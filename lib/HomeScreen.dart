@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:myapp/Data/RestData.dart';
 import 'package:myapp/Data/User.dart';
 import 'package:myapp/MyAccount.dart';
 import 'package:geolocator/geolocator.dart';
@@ -9,6 +10,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/const.dart';
 import 'package:myapp/restaurant.dart';
 import 'package:myapp/services/Location.dart';
+import 'package:myapp/services/database.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -24,7 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void initState(){
     
-    LocationGet().getCurrentPosition(context);
+    setState(() {
+      LocationGet().getCurrentPosition(context);
+    });
      super.initState();
     
   }
@@ -71,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     
                     IconButton(
                       onPressed: () {
+                        DataBaseServices().getInfo();
                         Navigator.push(context,MaterialPageRoute(builder: (context)=>MyAccount()));
                       },
                       icon: Icon(FontAwesomeIcons.user,)
@@ -253,7 +258,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Restaurant()));
+                        DataBaseServices().getRestData().whenComplete((){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Restaurant()));
+                        });
+                        
+                        
+                        
                       },
                     );
                   },
@@ -384,7 +394,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Restaurant()));
+                        DataBaseServices().getRestData().whenComplete((){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Restaurant()));
+                        });
                       },
                     );
                   },
@@ -515,7 +527,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Restaurant()));
+                        DataBaseServices().getRestData().whenComplete((){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Restaurant()));
+                        });
                       },
                     );
                   },

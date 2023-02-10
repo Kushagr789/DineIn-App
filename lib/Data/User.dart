@@ -5,6 +5,6 @@ import 'package:geocoding/geocoding.dart';
 
 class UserData{
    static String name="";
-   static String currentAddress="";
+   static String currentAddress="k";
    static Position? currentPosition;
 }

@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:myapp/Data/RestData.dart';
 import 'package:myapp/HomeScreen.dart';
 import 'package:myapp/Menu.dart';
 import 'package:myapp/Reviews.dart';
+import 'package:myapp/services/database.dart';
 
 class Restaurant extends StatefulWidget {
   
@@ -14,21 +18,26 @@ class Restaurant extends StatefulWidget {
 }
 
 class _RestaurantState extends State<Restaurant> {
+  Future<void> getdata() async{
+    await DataBaseServices().getRestData();
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    
+    super.initState();
+  }
   
   @override
   Widget build(BuildContext context) {
+  
+    
     int select=0;int guest=0;
     final size=MediaQuery.of(context).size;
     return Scaffold(
       
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('Restaurants').doc('Tamasha').snapshots(),
-        builder: (context, snapshot) {
-          if(!snapshot.hasData){
-            return Text('Loading');
-          }
-          var restDoc=snapshot.data;
-          return NestedScrollView(
+      body: 
+           NestedScrollView(
         
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
@@ -42,8 +51,8 @@ class _RestaurantState extends State<Restaurant> {
                   
                   
                   background: Image.network(
-                    restDoc['image'],
-                    fit: BoxFit.cover,
+                     RestaurantData.url,
+                     fit: BoxFit.cover,
                   )),
             ),
           ];
@@ -77,7 +86,7 @@ class _RestaurantState extends State<Restaurant> {
                     children: [
                       SizedBox(height: size.height*0.03,),
                       Text(
-                        restDoc!['name'],
+                        RestaurantData.name,
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 25,
@@ -85,15 +94,21 @@ class _RestaurantState extends State<Restaurant> {
                         ),
                       ),
                       Text(
-                        restDoc['add'],
+                        RestaurantData.address,
                         style: TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 99, 98, 98),
                           fontWeight: FontWeight.w400,
                         ),
                       ),
-                      Row(
-                        children: [
+                      Text(
+                            RestaurantData.cuisine,
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Color.fromARGB(255, 38, 37, 37),
+                            ),
+                          ),
+                      
                           Text(
                             '\u{20B9}100 for 1 ',
                             style: TextStyle(
@@ -102,15 +117,10 @@ class _RestaurantState extends State<Restaurant> {
                             ),
                           ),
                           
-                          Text(
-                            '| Continental, Asian, Italian, North Indian',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Color.fromARGB(255, 38, 37, 37),
-                            ),
-                          ),
-                        ],
-                      ),
+                          
+                        
+                      
+                      
                       Row(
                         children: [
                           Text(
@@ -122,7 +132,7 @@ class _RestaurantState extends State<Restaurant> {
                           ),
                           
                           Text(
-                            '| Closes at 01:30 AM',
+                            '| Closes at ${RestaurantData.TE}',
                             style: TextStyle(
                               fontSize: 13,
                               color: Color.fromARGB(255, 38, 37, 37),
@@ -835,7 +845,7 @@ class _RestaurantState extends State<Restaurant> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 15.0),
                 child: Container(
-                  height: size.height*0.85,
+                  
                   width: size.width,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(18),                        
@@ -865,17 +875,19 @@ class _RestaurantState extends State<Restaurant> {
                         ),
                       ),
                       Container(
-                        height: size.height*0.15,
+                        
                         width: size.width,
                         child: Text(
-                        restDoc['about'],
+                        RestaurantData.about,
+                 
+                        
                         style: TextStyle(
                           fontSize: 15,
                           color: Color.fromARGB(255, 99, 98, 98),
                           fontWeight: FontWeight.w400,
                         ),
-                      ),
-                      ),
+                      ),),
+                      
                       Container(
                         height: size.height*0.08,
                         width: size.width,
@@ -884,7 +896,8 @@ class _RestaurantState extends State<Restaurant> {
                           children: [
                             Icon(FontAwesomeIcons.bowlFood,size: 35,),
                             SizedBox(width: size.width*0.03,),
-                            Column(
+                            Container(
+                              child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -895,7 +908,7 @@ class _RestaurantState extends State<Restaurant> {
                                   ),
                                 ),
                                 Text(
-                                  restDoc['cuisine'],
+                                  RestaurantData.cuisine,
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 99, 98, 98),
@@ -903,6 +916,7 @@ class _RestaurantState extends State<Restaurant> {
                                   ),
                                 ),
                               ],
+                            ),
                             )
                           ],
                         ),
@@ -926,7 +940,7 @@ class _RestaurantState extends State<Restaurant> {
                                   ),
                                 ),
                                 Text(
-                                  restDoc['ET'],
+                                  RestaurantData.type,
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 99, 98, 98),
@@ -956,7 +970,7 @@ class _RestaurantState extends State<Restaurant> {
                                   ),
                                 ),
                                 Text(
-                                  restDoc['MT'],
+                                  RestaurantData.BS,
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: Color.fromARGB(255, 99, 98, 98),
@@ -988,7 +1002,7 @@ class _RestaurantState extends State<Restaurant> {
                                 Row(
                                   children: [
                                     Text(
-                                      '\u{20B9} '+restDoc['AC'],
+                                      '\u{20B9} '+RestaurantData.avgCost,
                                       style: TextStyle(
                                         fontSize: 18,
                                         color: Colors.black,
@@ -1294,13 +1308,12 @@ class _RestaurantState extends State<Restaurant> {
           ),
           ),
         ),
-        );
-        },
-      )
+        )
+        
+      
           
         
       );
-      
     
   }
 
