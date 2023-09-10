@@ -7,8 +7,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:myapp/RestaurantHome.dart';
+
 import 'package:myapp/const.dart';
-import 'package:myapp/restaurant.dart';
+
 import 'package:myapp/services/Location.dart';
 import 'package:myapp/services/database.dart';
 class HomeScreen extends StatefulWidget {
@@ -38,10 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
     
     final size=MediaQuery.of(context).size;
     return SafeArea(
+
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
             children: [
+              
               Container(
                 height: size.height/10,
                 width: size.width,
@@ -53,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: GestureDetector(
                         child: Container(
                           
-                          child: Row(                            
+                          child: Row(
                             children: [
                               Icon(
                                 FontAwesomeIcons.locationArrow,
@@ -169,11 +173,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: size.height*0.31,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 10,
+                  itemCount: 8,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       child: Container(
-                        
+
                         width: size.width*0.48,
                         margin: EdgeInsets.all(10),// add margin 
                         // add padding
@@ -192,6 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 //)
                         ),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
                               width: size.width*0.48,
@@ -200,10 +205,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Stack(
                               children: [
                                 Container(
-                                  
+
                                   width: size.width*0.48,
                                   height: size.height*0.208,
-                                  child: Image.network('https://im1.dineout.co.in/images/uploads/restaurant/sharpen/3/u/v/p3239-147063420957a818e1ecbd1.jpg?tr=tr:n-xlarge',fit: BoxFit.cover,),
+                                  child: Image.network(RestaurantData.NearRest[index]['img'].toString(),fit: BoxFit.cover,),
                                 ),
                                 Positioned(
                                   top: size.height*0.19,
@@ -211,14 +216,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Container(
                                   width: size.width*0.12,
                                   height: size.height*0.025,
-                                  
+
                                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: Colors.lightGreen,),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                     Icon(FontAwesomeIcons.solidStar,size: 10,color: Colors.white,),
-                                    Text('4.5',style: TextStyle(fontSize: 15,color: Colors.white,fontWeight: FontWeight.bold),)
+                                    Text(RestaurantData.NearRest[index]['rating'].toString(),style: TextStyle(fontSize: 15,color: Colors.white,fontWeight: FontWeight.bold),)
                                   ],)
                                 ),
                                 ),
@@ -228,13 +233,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Container(
                                   width: size.width*0.13,
                                   height: size.height*0.02,
-                                  
+
                                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color:  Color.fromARGB(100, 22, 44, 33)),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                    
+
                                     Text('4.5 km',style: TextStyle(fontSize: 13,color: Colors.white,fontWeight: FontWeight.bold),)
                                   ],)
                                 ),
@@ -244,22 +249,25 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             ),
                             Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text('Saqi Bar',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
-                                  Text('Connaught Place, Central Delhi',style: TextStyle(fontSize: 12,color: Colors.grey,fontWeight: FontWeight.bold),),
-                                  Text('Flat 20% Off the Toral Bill',style: TextStyle(fontSize: 12,color: Colors.lightGreen,fontWeight: FontWeight.bold),)
-                                ],
+
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(RestaurantData.NearRest[index]['name'],style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                                    Text(RestaurantData.NearRest[index]['address'],style: TextStyle(fontSize: 12,color: Colors.grey,fontWeight: FontWeight.bold),),
+                                    Text('Flat 20% Off the Toral Bill',style: TextStyle(fontSize: 12,color: Colors.lightGreen,fontWeight: FontWeight.bold),)
+                                  ],
+                                ),
                               ),
-                            )
+
                           ],
                         ),
                       ),
                       onTap: () {
                         DataBaseServices().getRestData().whenComplete((){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Restaurant()));
+
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>RestHome(RestaurantData.NearRest[index])));
                         });
                         
                         
@@ -293,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       onTap: () {
-                        
+
                       },
                     ),
                   ],
@@ -303,14 +311,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: size.height/26,
               ),
               SizedBox(
-                height: size.height*0.3,
+                height: size.height*0.31,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 8,
+                  itemCount: 7,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       child: Container(
-                        
+                        height: size.height*0.3,
                         width: size.width*0.48,
                         margin: EdgeInsets.all(10),// add margin 
                         // add padding
@@ -339,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Container(
                                   width: size.width*0.48,
                                   height: size.height*0.208,
-                                  child: Image.network('https://im1.dineout.co.in/images/uploads/restaurant/sharpen/3/u/v/p3239-147063420957a818e1ecbd1.jpg?tr=tr:n-xlarge',fit: BoxFit.cover,),
+                                  child: Image.network(RestaurantData.TrendRest[index]['img'].toString(),fit: BoxFit.cover,),
                                 ),
                                 Positioned(
                                   top: size.height*0.19,
@@ -354,7 +362,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                     Icon(FontAwesomeIcons.solidStar,size: 10,color: Colors.white,),
-                                    Text('4.5',style: TextStyle(fontSize: 15,color: Colors.white,fontWeight: FontWeight.bold),)
+                                    Text(RestaurantData.TrendRest[index]['rating'].toString(),style: TextStyle(fontSize: 15,color: Colors.white,fontWeight: FontWeight.bold),)
                                   ],)
                                 ),
                                 ),
@@ -384,8 +392,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Text('Saqi Bar',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
-                                  Text('Connaught Place, Central Delhi',style: TextStyle(fontSize: 12,color: Colors.grey,fontWeight: FontWeight.bold),),
+                                  Text(RestaurantData.TrendRest[index]['name'],style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                                  Text(RestaurantData.TrendRest[index]['address'],style: TextStyle(fontSize: 12,color: Colors.grey,fontWeight: FontWeight.bold),),
                                   Text('Flat 20% Off the Toral Bill',style: TextStyle(fontSize: 12,color: Colors.lightGreen,fontWeight: FontWeight.bold),)
                                 ],
                               ),
@@ -395,7 +403,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       onTap: () {
                         DataBaseServices().getRestData().whenComplete((){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Restaurant()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>RestHome(RestaurantData.TrendRest[index])));
                         });
                       },
                     );
@@ -426,7 +434,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       onTap: () {
-                        
+
                       },
                     ),
                   ],
@@ -436,7 +444,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: size.height/25,
               ),
               SizedBox(
-                height: size.height*0.26,
+                height: size.height*0.27,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: 7,
@@ -472,7 +480,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Container(
                                   width: size.width*0.48,
                                   height: size.height*0.18,
-                                  child: Image.network('https://im1.dineout.co.in/images/uploads/restaurant/sharpen/3/u/v/p3239-147063420957a818e1ecbd1.jpg?tr=tr:n-xlarge',fit: BoxFit.cover,),
+                                  child: Image.network(RestaurantData.RestList[index]['img'].toString(),fit: BoxFit.cover,),
                                 ),
                                 Positioned(
                                   top: size.height*0.164,
@@ -487,7 +495,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                     Icon(FontAwesomeIcons.solidStar,size: 10,color: Colors.white,),
-                                    Text('4.5',style: TextStyle(fontSize: 15,color: Colors.white,fontWeight: FontWeight.bold),)
+                                    Text(RestaurantData.RestList[index]['rating'].toString(),style: TextStyle(fontSize: 15,color: Colors.white,fontWeight: FontWeight.bold),)
                                   ],)
                                 ),
                                 ),
@@ -517,8 +525,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Text('Saqi Bar',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
-                                  Text('Connaught Place, Central Delhi',style: TextStyle(fontSize: 12,color: Colors.grey,fontWeight: FontWeight.bold),),
+                                  Text(RestaurantData.RestList[index]['name'],style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                                  Text(RestaurantData.RestList[index]['address'],style: TextStyle(fontSize: 12,color: Colors.grey,fontWeight: FontWeight.bold),),
                                   
                                 ],
                               ),
@@ -528,7 +536,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       onTap: () {
                         DataBaseServices().getRestData().whenComplete((){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Restaurant()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>RestHome(RestaurantData.RestList[index])));
                         });
                       },
                     );

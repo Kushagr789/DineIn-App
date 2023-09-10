@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/Data/RestData.dart';
+import 'package:photo_view/photo_view.dart';
 class Menu extends StatefulWidget {
-  const Menu({super.key});
+  var menu;
+  Menu(this.menu);
 
   @override
-  State<Menu> createState() => _MenuState();
+  State<Menu> createState() => _MenuState(menu);
 }
 
 class _MenuState extends State<Menu> {
 
+  var menu;
+  _MenuState(this.menu);
   @override
   Widget build(BuildContext context) {
     print(RestaurantData.Menu);
@@ -24,15 +28,23 @@ class _MenuState extends State<Menu> {
       body: Container(
         child: Center(
           child: PageView.builder(
-            itemCount: RestaurantData.Menu.length,
+            itemCount: menu.length,
             scrollDirection:Axis.horizontal,
             itemBuilder: (context, index) {
-              return Container(
-                height: size.height*0.9,
-                width: size.width,
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Image.network(RestaurantData.Menu[index],fit: BoxFit.fill,),
-                
+              return Expanded(
+                child: Container(
+                  height: size.height*0.9,
+                  width: size.width,
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: PhotoView(
+                    
+                    imageProvider: NetworkImage(menu[index].toString(),),
+                    backgroundDecoration: BoxDecoration(
+                      color: Colors.white
+                    ),
+                    
+                  ),
+                ),
               );
             },
           ),

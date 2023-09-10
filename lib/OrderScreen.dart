@@ -3,6 +3,7 @@
 import 'package:myapp/MyAccount.dart';
 import 'package:myapp/order.dart';
 
+import 'Data/User.dart';
 import 'const.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -39,7 +40,7 @@ class OrderScreen extends StatelessWidget {
                             ),
                     ),
                     Text(
-                      "Add Your Location Here",
+                      UserData.currentAddress,
                       style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
                     ),
                     SizedBox(

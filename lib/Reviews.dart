@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:myapp/Data/RestData.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 class Reviews extends StatelessWidget {
   const Reviews({super.key});
@@ -9,7 +10,7 @@ class Reviews extends StatelessWidget {
     final size=MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Restaurant name',
+        title: Text(RestaurantData.name,
         style: TextStyle(fontSize: 25,color: Colors.black),),
       ),
       body: Container(
@@ -32,7 +33,7 @@ class Reviews extends StatelessWidget {
               
                 child: Column(
                   children: [
-                    Text('4.2',
+                    Text(RestaurantData.rating,
                     style: TextStyle(
                       fontSize: 45,
                       fontWeight: FontWeight.bold,

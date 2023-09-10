@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.6.10'
+    ext.kotlin_version = '1.8.0'
     repositories {
         google()
         mavenCentral()
@@ -17,7 +17,14 @@ allprojects {
         google()
         mavenCentral()
     }
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:deprecation"
+        }
+    }
 }
+
+
 
 rootProject.buildDir = '../build'
 subprojects {

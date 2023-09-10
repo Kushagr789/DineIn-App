@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:myapp/Data/User.dart';
 import 'package:myapp/MyAccount.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/const.dart';
@@ -34,8 +35,8 @@ class _DeliverState extends State<Deliver> {
                             ),
                     ),
                     Text(
-                      "Add Your Location Here",
-                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                      UserData.currentAddress,
+                      style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       width: size.width/5,
@@ -47,7 +48,7 @@ class _DeliverState extends State<Deliver> {
                       icon: Icon(FontAwesomeIcons.user)
                     ),
                   ],
-      
+
                 ),
               ),
               //searchBar
@@ -146,10 +147,11 @@ class _DeliverState extends State<Deliver> {
                 ),
               ),
               Container(
-                height: size.height*0.48,
+                height: size.height*0.5,
                 width: size.width,
                 child: GridView.builder(
                   itemCount: 16,
+                  physics: NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4), 
                   itemBuilder: ((context, index) {
                     return GestureDetector(
@@ -205,14 +207,15 @@ class _DeliverState extends State<Deliver> {
                 height: size.height*0.3,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 5,physics: PageScrollPhysics(),
+                  itemCount: 5,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
+
                       child: Container(
                         
                         width: size.width*0.4,
                         margin: EdgeInsets.all(10),// add margin 
-                        padding: EdgeInsets.all(10),// add padding
+                        padding: EdgeInsets.only(bottom: 20),// add padding
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                           color: Colors.white,
@@ -223,9 +226,30 @@ class _DeliverState extends State<Deliver> {
                             ),
                           ),
                         ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: size.width*0.4,
+                              height: size.height*0.18,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10)),
+
+                              ),
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text("Burger King",style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.bold),),
+                                Text("Burger, Rolls, Fries",style: TextStyle(fontSize: 16,color: Colors.black87,),),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                      onTap: () {
-                        
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Order()));
                       },
                     );
                   },

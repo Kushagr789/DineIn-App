@@ -17,6 +17,11 @@ class AuthService{
     }
   }
   
+  Future createRest(String name) async{
+    await DataBaseServices().createRestData(name);
+    print('done');
+
+  }
 
 
   

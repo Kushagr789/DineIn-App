@@ -9,6 +9,9 @@ import 'package:myapp/LoginPage.dart';
 import 'package:myapp/services/auth.dart';
 import 'package:myapp/services/database.dart';
 import 'package:myapp/Data/User.dart' ;
+import 'package:myapp/slotHistory.dart';
+
+import 'foodHistory.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({super.key});
@@ -21,18 +24,10 @@ class _MyAccountState extends State<MyAccount> {
   final AuthService _auth=AuthService();
   
 String n="";
-  @override
- 
-  @override
-  
+
 
   @override
   Widget build(BuildContext context) {
-    
-    
-    
-    
-
     return Scaffold(
       appBar: AppBar(
         title: Text('My Account',
@@ -184,6 +179,9 @@ String n="";
                         ),
                         
                       ),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>SlotHistory()));
+                      },
                         
                     ),
                     
@@ -264,6 +262,9 @@ String n="";
                     ),
                     SizedBox(height: 2,),
                     GestureDetector(
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>FoodHistory()));
+                      },
                       child: Container(
                         height: MediaQuery.of(context).size.height/18,
                         width: MediaQuery.of(context).size.width-30,
