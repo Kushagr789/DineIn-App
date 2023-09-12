@@ -29,7 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState(){
     
     setState(() {
-      LocationGet().getCurrentPosition(context);
+      DataBaseServices().getInfo();
+
     });
      super.initState();
     
@@ -249,6 +250,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             ),
                             Container(
+                              padding: EdgeInsets.symmetric(horizontal: 5),
 
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -337,6 +339,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 //)
                         ),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
                               width: size.width*0.48,
@@ -388,6 +391,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             ),
                             Container(
+                              padding: EdgeInsets.symmetric(horizontal: 5),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -453,7 +457,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Container(
                         
                         width: size.width*0.48,
-                        margin: EdgeInsets.all(10),// add margin 
+                        margin: EdgeInsets.all(10), // add margin
                         // add padding
                         decoration: BoxDecoration(
                           borderRadius: const BorderRadius.only(bottomLeft:Radius.circular(10.0),bottomRight: Radius.circular(10.0)),
@@ -470,6 +474,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 //)
                         ),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
                               width: size.width*0.48,
@@ -521,6 +526,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             ),
                             Container(
+                              padding: EdgeInsets.symmetric(horizontal: 5),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

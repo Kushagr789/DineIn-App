@@ -288,37 +288,38 @@ class _RestHomeState extends State<RestHome> {
                   children: [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(Icons.local_parking,size: 16,color: Colors.black,),
+                            Icon(RestaurantData.ic[0],size: 16,color: Colors.black,),
                             SizedBox(width: 10),
-                            Text("Parking",style: TextStyle(fontSize: 18,color: Colors.black),)
+                            Text(RestaurantData.facility[0],style: TextStyle(fontSize: 18,color: Colors.black),)
                           ],
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(Icons.local_parking,size: 16,color: Colors.black,),
+                            Icon(RestaurantData.ic[2],size: 16,color: Colors.black,),
                             SizedBox(width: 10),
-                            Text("Parking",style: TextStyle(fontSize: 18,color: Colors.black),)
+                            Text(RestaurantData.facility[2],style: TextStyle(fontSize: 18,color: Colors.black),)
                           ],
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(Icons.local_parking,size: 16,color: Colors.black,),
+                            Icon(RestaurantData.ic[4],size: 16,color: Colors.black,),
                             SizedBox(width: 10),
-                            Text("Parking",style: TextStyle(fontSize: 18,color: Colors.black),)
+                            Text(RestaurantData.facility[4],style: TextStyle(fontSize: 18,color: Colors.black),)
                           ],
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(Icons.local_parking,size: 16,color: Colors.black,),
+                            Icon(RestaurantData.ic[6],size: 16,color: Colors.black,),
                             SizedBox(width: 10),
-                            Text("Parking",style: TextStyle(fontSize: 18,color: Colors.black),)
+                            Text(RestaurantData.facility[6],style: TextStyle(fontSize: 18,color: Colors.black),)
                           ],
                         ),
 
@@ -326,37 +327,39 @@ class _RestHomeState extends State<RestHome> {
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
+
                           children: [
-                            Icon(Icons.local_parking,size: 16,color: Colors.black,),
+                            Icon(RestaurantData.ic[1],size: 16,color: Colors.black,),
                             SizedBox(width: 10),
-                            Text("Parking",style: TextStyle(fontSize: 18,color: Colors.black),)
+                            Text(RestaurantData.facility[1],style: TextStyle(fontSize: 18,color: Colors.black),)
                           ],
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(Icons.local_parking,size: 16,color: Colors.black,),
+                            Icon(RestaurantData.ic[3],size: 16,color: Colors.black,),
                             SizedBox(width: 10),
-                            Text("Parking",style: TextStyle(fontSize: 18,color: Colors.black),)
+                            Text(RestaurantData.facility[3],style: TextStyle(fontSize: 18,color: Colors.black),)
                           ],
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(Icons.local_parking,size: 16,color: Colors.black,),
+                            Icon(RestaurantData.ic[5],size: 16,color: Colors.black,),
                             SizedBox(width: 10),
-                            Text("Parking",style: TextStyle(fontSize: 18,color: Colors.black),)
+                            Text(RestaurantData.facility[5],style: TextStyle(fontSize: 18,color: Colors.black),)
                           ],
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(Icons.local_parking,size: 16,color: Colors.black,),
+                            Icon(RestaurantData.ic[7],size: 16,color: Colors.black,),
                             SizedBox(width: 10),
-                            Text("Parking",style: TextStyle(fontSize: 18,color: Colors.black),)
+                            Text(RestaurantData.facility[7],style: TextStyle(fontSize: 18,color: Colors.black),)
                           ],
                         ),
 

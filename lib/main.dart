@@ -11,6 +11,7 @@ import 'package:myapp/HomePage.dart';
 import 'package:myapp/LoginPage.dart';
 import 'package:myapp/MyAccount.dart';
 import 'package:myapp/RestaurantHome.dart';
+import 'package:myapp/Splash.dart';
 import 'package:myapp/deliver.dart';
 import 'package:myapp/order.dart';
 
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Color.fromARGB(255, 225, 34, 97)
       ),
       debugShowCheckedModeBanner: false,
-      home: FirebaseAuth.instance.currentUser==null? LoginPage():HomePage() ,
+      home: Splash() ,
 
 
     );

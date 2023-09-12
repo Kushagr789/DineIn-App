@@ -1,5 +1,7 @@
 
 
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class RestaurantData{
   static List<dynamic> RestList=[];
@@ -22,5 +24,27 @@ class RestaurantData{
   static String mon="";
   static String occasion="";
   static String specRqst="";
+
+  static List<String> facility=[
+    "Parking",
+    "Air Conditioned",
+    "Wifi",
+    "Wallet Pay",
+    "Dinout Pay",
+    "Music",
+    "Books",
+    "Barbecue"
+  ];
+  static List ic=<IconData>[
+    Icons.local_parking,
+    Icons.ac_unit,
+    Icons.wifi,
+    Icons.wallet,
+    Icons.dining,
+    Icons.music_note,
+    Icons.menu_book_sharp,
+    Icons.wine_bar
+
+  ];
 
 }
