@@ -217,7 +217,7 @@ class OrderScreen extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: ((context) => Order())));
+              Navigator.push(context, MaterialPageRoute(builder: ((context) => Order("","",""))));
             },
             );
           }),

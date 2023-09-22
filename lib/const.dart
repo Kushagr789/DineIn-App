@@ -106,23 +106,61 @@ List<FoodItems> foodItemList = [
       imageUrl:
           "https://i.ytimg.com/vi/JEeO_hagtVM/maxresdefault.jpg"),        
 ];
+class Rest{
+  List restName=[
+    "Burger King",
+    "Oven story",
+    "Bawla Chicken",
+    "Sirohi Chaap",
+    "Punjabi Tadka"
+  ];
+  List restRat=[
+    "4.5",
+    "4.3",
+    "4.6",
+    "4.5",
+    "4.2"
+  ];
+  List item=[
+    "Burger, Rolls, Fries",
+    "Pizza,Burger",
+    "Chicken,Biryani",
+    "Chaap,Pasta, Momos",
+    "Paneer, Dal, Naan"
+  ];
+  List image=[
+    "https://imageio.forbes.com/specials-images/dam/imageserve/1058912512/0x0.jpg?format=jpg&width=1200",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlhLk9kE49TXzLZHZb_b3jVPasp_V0fvPBtA&usqp=CAU",
+    "https://i0.wp.com/blendofspicesbysara.com/wp-content/uploads/2021/02/PXL_20210126_221648173.PORTRAIT-01.jpeg?resize=800%2C840&ssl=1"
+        "https://imageio.forbes.com/specials-images/dam/imageserve/1058912512/0x0.jpg?format=jpg&width=1200",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlhLk9kE49TXzLZHZb_b3jVPasp_V0fvPBtA&usqp=CAU",
 
+  ];
+  List IM=[
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqTDo5i3wS55ky-rRXgldUcBrK7O54G6PI2Q&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg9qXZ6z10fn0Zetbl_PcBly-B2kVt32IIMg&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMRjX9tgygqXY6LBMJwlBXhevohfgFU8fkkJJcmAAdtUJZWkJAJbpgEbRTQVho3z6xE-Y&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTyjZ6mwPFQ5liuIjJwkUZ9J3389PvKLM7Hg&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSct3O8hs_kCXFbH95ESc7uj-jGFS_NHCkcwQ&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6a3E4sh_vwNVqKeeNPIGGxSobJPegPpcBpQ&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJPDRVqypuoq5xEcklMaU2lbd9WffTJ8KspQ&usqp=CAU"
+  ];
+
+}
 List<Restaurants> restaurantList = [
   Restaurants(
-      title: "Om Sweet & Snacks",
-      locations: "North Indian,  South Indian, Chinese",
+      title: "Om Sweet",
+      locations: "North Indian,  Traditional",
       price: "100",
       rating: "4.2",
       imageUrl:
-          "https://2rdnmg1qbg403gumla1v9i2h-wpengine.netdna-ssl.com/wp-content/uploads/sites/3/2016/05/worstSnacks-527905022-770x533-1-745x490.jpg"),
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqTDo5i3wS55ky-rRXgldUcBrK7O54G6PI2Q&usqp=CAU"),
   Restaurants(
     title: "The Masala Story",
     locations: "North Indian, Mughlai, Kebab",
     price: "300",
     rating: "4.1",
-    imageUrl:
-        "https://2rdnmg1qbg403gumla1v9i2h-wpengine.netdna-ssl.com/wp-content/uploads/sites/3/2016/05/worstSnacks-527905022-770x533-1-745x490.jpg",
-  ),
+    imageUrl:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg9qXZ6z10fn0Zetbl_PcBly-B2kVt32IIMg&usqp=CAU"),
   Restaurants(
     title: "Domino's Pizza",
     locations: "Pizza, Fast Food",

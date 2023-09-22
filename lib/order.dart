@@ -3,15 +3,20 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/Billing.dart';
+import 'package:myapp/Pay.dart';
 import 'package:myapp/const.dart';
 class Order extends StatefulWidget {
-  const Order({super.key});
+  var name,rating,cuisine;
+  Order(this.name,this.rating,this.cuisine);
 
   @override
-  State<Order> createState() => _OrderState();
+  State<Order> createState() => _OrderState(name,rating,cuisine);
 }
 
 class _OrderState extends State<Order> {
+  var name,rating,cuisine;
+  _OrderState(this.name,this.rating,this.cuisine);
+
     int select=0;int qt=0;int tp=0;  bool visible=false;
     void change(int num,int t,)
     {
@@ -110,7 +115,7 @@ class _OrderState extends State<Order> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Name',
+                                Text(name.toString(),
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 25,
@@ -119,13 +124,13 @@ class _OrderState extends State<Order> {
 
                                 ),
                                 Text(
-                                  'Cuisine',
+                                  cuisine.toString(),
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: Colors.black,
                                   ),
                                 ),
-                                Text('location',
+                                Text('Sector 62,Noida',
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: Colors.grey,
@@ -160,7 +165,7 @@ class _OrderState extends State<Order> {
                                     child: Center(
                                       child: Row(mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          Text('3.4 ',
+                                          Text(rating.toString(),
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 20,
@@ -450,6 +455,7 @@ class _OrderState extends State<Order> {
                                                               setState(() {
                                                                 num=num-1;
 
+
                                                               },);
                                                             }
                                                           },
@@ -566,7 +572,8 @@ class _OrderState extends State<Order> {
             ),
           ),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: ((context) => Billing())));
+
+            Navigator.push(context, MaterialPageRoute(builder: ((context) => Pay())));
           },
           ),
         ),

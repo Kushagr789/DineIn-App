@@ -207,49 +207,85 @@ class _DeliverState extends State<Deliver> {
                 height: size.height*0.3,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: 5,
+                  itemCount: 4,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
-
                       child: Container(
-                        
-                        width: size.width*0.4,
-                        margin: EdgeInsets.all(10),// add margin 
-                        padding: EdgeInsets.only(bottom: 20),// add padding
+
+                        width: size.width*0.48,
+                        margin: EdgeInsets.all(10),// add margin
+                        // add padding
                         decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                          borderRadius: const BorderRadius.only(bottomLeft:Radius.circular(10.0),bottomRight: Radius.circular(10.0)),
                           color: Colors.white,
+
                           border: Border.fromBorderSide(
                             BorderSide(
                               color: Color(0xFF8D4AE9),
                               width: 1.0,
                             ),
                           ),
+                          //image: DecorationImage(
+                          //image: AssetImage(dineRestaurant[index].url),fit: BoxFit.cover
+                          //)
                         ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              width: size.width*0.4,
-                              height: size.height*0.18,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(topRight: Radius.circular(10),topLeft: Radius.circular(10)),
+                              width: size.width*0.48,
+                              height: size.height*0.216,
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                              child: Stack(
+                                children: [
+                                  Container(
 
+                                    width: size.width*0.48,
+                                    height: size.height*0.208,
+                                    child: Image.network(Rest().image[index],fit: BoxFit.cover,),
+                                  ),
+                                  Positioned(
+                                    top: size.height*0.19,
+                                    left: size.width*0.01,
+                                    child: Container(
+                                        width: size.width*0.12,
+                                        height: size.height*0.025,
+
+                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(5),color: Colors.lightGreen,),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            Icon(FontAwesomeIcons.solidStar,size: 10,color: Colors.white,),
+                                            Text(Rest().restRat[index],style: TextStyle(fontSize: 15,color: Colors.white,fontWeight: FontWeight.bold),)
+                                          ],)
+                                    ),
+                                  ),
+
+
+                                ],
                               ),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text("Burger King",style: TextStyle(fontSize: 22,color: Colors.black,fontWeight: FontWeight.bold),),
-                                Text("Burger, Rolls, Fries",style: TextStyle(fontSize: 16,color: Colors.black87,),),
-                              ],
-                            )
+                            Container(
+                              padding: EdgeInsets.symmetric(horizontal: 5),
+
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text(Rest().restName[index],style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.black),),
+                                  Text(Rest().item[index],style: TextStyle(fontSize: 12,color: Colors.grey,fontWeight: FontWeight.bold),),
+                                  ],
+                              ),
+                            ),
+
                           ],
                         ),
                       ),
+
+
                       onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Order()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Order(Rest().restName[index],Rest().restRat[index],Rest().item[index])));
                       },
                     );
                   },
@@ -278,7 +314,7 @@ class _DeliverState extends State<Deliver> {
                 height: size.height*3,
                 width: size.width,
                 child: ListView.builder(
-                  itemCount: 7,
+                  itemCount: 21,
                   scrollDirection: Axis.vertical,
                   physics: NeverScrollableScrollPhysics(),
                   
@@ -287,7 +323,7 @@ class _DeliverState extends State<Deliver> {
                       padding: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 18.0),
                       child: GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: ((context) => Order())));
+                        Navigator.push(context, MaterialPageRoute(builder: ((context) => Order(restaurantList[index%7].title,restaurantList[index%7].rating,restaurantList[index%7].locations))));
                       },
                       child: Material(
                         elevation: 3,
@@ -304,7 +340,7 @@ class _DeliverState extends State<Deliver> {
                                     topRight: Radius.circular(18),
                                   ),
                                   image: DecorationImage(
-                                    image: NetworkImage(restaurantList[index].imageUrl),
+                                    image: NetworkImage(Rest().IM[index%7]),
                                     fit: BoxFit.cover
                                   ),
                                 ),
@@ -321,7 +357,7 @@ class _DeliverState extends State<Deliver> {
                                   children: [
                                     
                                     Text(
-                                      restaurantList[index].title,
+                                      restaurantList[index%7].title,
                                       style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w500,
@@ -340,7 +376,7 @@ class _DeliverState extends State<Deliver> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                          restaurantList[index].rating,
+                                          restaurantList[index%7].rating,
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
@@ -362,14 +398,14 @@ class _DeliverState extends State<Deliver> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      restaurantList[index].locations,
+                                      restaurantList[index%7].locations,
                                       style: TextStyle(
                                         fontSize: 15,
                                         color: Color.fromARGB(255, 38, 37, 37),
                                       ),
                                     ),
                                     Text(
-                                      '\u{20B9}${restaurantList[index].price} for one',
+                                      '\u{20B9}${restaurantList[index%7].price} for one',
                                       style: TextStyle(
                                         fontSize: 15,
                                         color: Color.fromARGB(255, 38, 37, 37),
